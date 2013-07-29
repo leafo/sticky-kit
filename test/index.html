@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>sticky kit test</title>
+  <style type="text/css">
+    .container {
+      border: 1px solid red;
+    }
+    
+    .item {
+      display: inline-block;
+      vertical-align: top;
+      border: 1px solid blue;
+      min-width: 200px;
+      min-height: 200px;
+      background-image: url("tile.png");
+      box-sizing: border-box;
+      box-shadow: inset 0 30px 20px -20px rgba(0,0,0,0.2),
+        inset 0 -30px 20px -20px rgba(0,0,0,0.2);
+    }
+
+  </style>
+
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="../jquery.sticky-kit.js"></script>
+</head>
+<body>
+
+<h1>Basic Stick</h1>
+<div class="container one">
+  <div class="item"></div>
+  <div class="item full"></div>
+  <div class="item"></div>
+</div>
+
+<h1>Variable</h1>
+<div class="container one">
+  <div class="item"></div>
+  <div class="item half"></div>
+  <div class="item full"></div>
+</div>
+
+<h1>Inner Scroll</h1>
+<div class="container one">
+  <div class="item threequarter"></div>
+  <div class="item full"></div>
+  <div class="item onefive"></div>
+  <div class="item triple"></div>
+</div>
+
+<h1>Borders/Margins/Padding</h1>
+<div class="container one" style="padding: 80px; border: 80px solid green; margin: 80px;">
+  <div class="item"></div>
+  <div class="item half"></div>
+  <div class="item full"></div>
+</div>
+
+<h1>No Stick</h1>
+<div class="container one">
+  <div class="item full"></div>
+  <div class="item full"></div>
+</div>
+
+<div class="full"></div>
+
+<script type="text/javascript">
+  (function() {
+    var win = $(window);
+    var sizes = {
+      half: 0.5,
+      full: 1,
+      threequarter: 3/4,
+      onefive: 1.5,
+      "double": 2,
+      triple: 3
+    }
+    for (k in sizes) {
+      var v = sizes[k]
+      $("." + k).css({
+       height: Math.floor(win.height() * v) + "px"
+      });
+    }
+
+    $(".container .item").stick_in_parent();
+  })();
+</script>
+	
+</body>
+</html>
