@@ -1,3 +1,7 @@
+###*
+@license WTFPL | Leaf Corcoran 2013 | http://leafo.net
+###
+
 $ = @jQuery || @Zepto
 
 win = $ window
