@@ -58,9 +58,7 @@
             }
             spacer.detach();
             elm.css({
-              position: "",
-              "margin-left": "",
-              "margin-right": ""
+              position: ""
             }).removeClass(sticky_class);
           }
           win_height = win.height();

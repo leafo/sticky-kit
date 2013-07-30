@@ -62,8 +62,6 @@ $.fn.stick_in_parent = (parent_selector) ->
             spacer.detach()
             elm.css({
               position: ""
-              "margin-left": ""
-              "margin-right": ""
             }).removeClass(sticky_class)
 
           # updated offset
