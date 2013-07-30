@@ -10,7 +10,7 @@
     var elm, sticky_class, _fn, _i, _len;
     sticky_class = "is_stuck";
     _fn = function(elm) {
-      var border_top, bottomed, fixed, height, last_pos, offset, padding_bottom, padding_top, parent, parent_height, parent_top, spacer,
+      var border_top, bottomed, fixed, float, height, last_pos, offset, padding_bottom, padding_top, parent, parent_height, parent_top, spacer,
         _this = this;
       parent = elm.parent(parent_selector);
       border_top = parseInt(parent.css("border-top-width"), 10);
@@ -19,22 +19,22 @@
       parent_top = parent.offset().top + border_top + padding_top;
       parent_height = parent.height();
       height = elm.outerHeight(true);
-      console.log(elm, "height:", height, "parent height:", parent_height);
       if (height === parent_height) {
         return;
       }
+      float = elm.css("float");
       spacer = $("<div />").css({
         width: elm.outerWidth(true),
         height: height,
         display: elm.css("display"),
-        float: elm.css("float")
+        float: float
       });
       fixed = false;
       bottomed = false;
       last_pos = void 0;
       offset = 0;
       return win.on("scroll", function(e) {
-        var before, delta, scroll, win_height;
+        var before, css, delta, scroll, win_height;
         scroll = win.scrollTop();
         if (last_pos != null) {
           delta = scroll - last_pos;
@@ -44,9 +44,14 @@
           if (scroll < parent_top) {
             fixed = false;
             offset = 0;
+            if (float === "left" || float === "right") {
+              elm.insertAfter(spacer);
+            }
             spacer.detach();
             elm.css({
-              position: ""
+              position: "",
+              "margin-left": "",
+              "margin-right": ""
             }).removeClass(sticky_class);
           }
           if (scroll + height + offset > parent_height + parent_top) {
@@ -88,10 +93,14 @@
         } else {
           if (scroll > parent_top) {
             fixed = true;
-            return elm.css({
+            css = {
               position: "fixed",
               top: offset
-            }).addClass(sticky_class).after(spacer);
+            };
+            elm.css(css).addClass(sticky_class).after(spacer);
+            if (float === "left" || float === "right") {
+              return spacer.append(elm);
+            }
           }
         }
       });

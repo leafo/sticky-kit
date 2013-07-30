@@ -7,7 +7,7 @@
     .container {
       border: 1px solid red;
     }
-    
+
     .item {
       display: inline-block;
       vertical-align: top;
@@ -18,6 +18,39 @@
       box-sizing: border-box;
       box-shadow: inset 0 30px 20px -20px rgba(0,0,0,0.2),
         inset 0 -30px 20px -20px rgba(0,0,0,0.2);
+    }
+
+    .item.float {
+      display: block;
+      border: 1px solid rgb(255,255,0);
+      float: left;
+    }
+
+    .item.float.right {
+      float: right;
+    }
+
+    // .container {
+    //   display: none;
+    // }
+
+    .clearfix {
+      overflow: hidden;
+      display: block;
+    }
+
+    .borders {
+      padding: 40px;
+      border: 60px solid green;
+      margin: 80px;
+    }
+
+    .item.abs {
+    }
+
+    .is_stuck {
+      box-shadow: inset 0 30px 20px -20px rgba(0,0,0,0.2),
+        inset 0 -30px 20px -20px rgba(0,0,0,0.2), 0 0 10px red;
     }
 
   </style>
@@ -50,11 +83,34 @@
 </div>
 
 <h1>Borders/Margins/Padding</h1>
-<div class="container one" style="padding: 80px; border: 80px solid green; margin: 80px;">
+<div class="container one borders">
   <div class="item"></div>
   <div class="item half"></div>
   <div class="item full"></div>
 </div>
+
+<h1>Floating Columns</h1>
+<div class="container one clearfix borders">
+  <div class="item float"></div>
+  <div class="item float half"></div>
+  <div class="item float full"></div>
+</div>
+
+<h1>Floating Columns Right</h1>
+<div class="container one clearfix borders">
+  <div class="item float right"></div>
+  <div class="item float half"></div>
+  <div class="item float full"></div>
+</div>
+
+<h1>Floating Columns Right2</h1>
+<div class="container one clearfix borders">
+  <div class="item float right"></div>
+  <div class="item float half right"></div>
+  <div class="item float full"></div>
+</div>
+
+<h1>Floating Columns Right2</h1>
 
 <h1>No Stick</h1>
 <div class="container one">
@@ -85,6 +141,6 @@
     $(".container .item").stick_in_parent();
   })();
 </script>
-	
+
 </body>
 </html>

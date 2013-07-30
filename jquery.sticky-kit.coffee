@@ -16,15 +16,16 @@ $.fn.stick_in_parent = (parent_selector) ->
 
       parent_height = parent.height()
       height = elm.outerHeight true
-      console.log elm, "height:", height, "parent height:", parent_height
       return if height == parent_height
 
       # create a spacer
+      float = elm.css "float"
+
       spacer = $("<div />").css({
         width: elm.outerWidth true
         height: height
         display: elm.css "display"
-        float: elm.css "float"
+        float: float
       })
 
       fixed = false
@@ -43,10 +44,17 @@ $.fn.stick_in_parent = (parent_selector) ->
           if scroll < parent_top
             fixed = false
             offset = 0
+
+            if float == "left" || float == "right"
+              elm.insertAfter spacer
+
             spacer.detach()
             elm.css({
               position: ""
+              "margin-left": ""
+              "margin-right": ""
             }).removeClass(sticky_class)
+
 
           # bottomed out
           if scroll + height + offset > parent_height + parent_top
@@ -90,10 +98,16 @@ $.fn.stick_in_parent = (parent_selector) ->
           # fixing
           if scroll > parent_top
             fixed = true
-            elm.css({
+            css = {
               position: "fixed"
               top: offset
-            }).addClass(sticky_class).after(spacer)
+            }
+
+            elm.css(css).addClass(sticky_class).after(spacer)
+
+            if float == "left" || float == "right"
+              spacer.append elm
+
   @
 
 
