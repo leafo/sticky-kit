@@ -10,7 +10,8 @@ $.fn.stick_in_parent = (parent_selector) ->
 
   for elm in @
     ((elm, padding_bottom, parent_top, parent_height, height) ->
-      parent = elm.parent parent_selector
+      parent = elm.parent()
+      parent = parent.closest(parent_selector) if parent_selector?
 
       recalc = ->
         border_top = parseInt parent.css("border-top-width"), 10

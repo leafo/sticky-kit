@@ -17,7 +17,10 @@
     sticky_class = "is_stuck";
     _fn = function(elm, padding_bottom, parent_top, parent_height, height) {
       var bottomed, fixed, float, last_pos, offset, parent, recalc, spacer;
-      parent = elm.parent(parent_selector);
+      parent = elm.parent();
+      if (parent_selector != null) {
+        parent = parent.closest(parent_selector);
+      }
       recalc = function() {
         var border_top, padding_top;
         border_top = parseInt(parent.css("border-top-width"), 10);
