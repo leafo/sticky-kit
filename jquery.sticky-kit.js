@@ -8,26 +8,30 @@
 (function() {
   var $, win;
 
-  $ = this.jQuery || this.Zepto;
+  $ = this.jQuery;
 
   win = $(window);
 
   $.fn.stick_in_parent = function(parent_selector) {
     var elm, sticky_class, _fn, _i, _len;
     sticky_class = "is_stuck";
-    _fn = function(elm) {
-      var border_top, bottomed, fixed, float, height, last_pos, offset, padding_bottom, padding_top, parent, parent_height, parent_top, spacer,
-        _this = this;
+    _fn = function(elm, padding_bottom, parent_top, parent_height, height) {
+      var bottomed, fixed, float, last_pos, offset, parent, recalc, spacer;
       parent = elm.parent(parent_selector);
-      border_top = parseInt(parent.css("border-top-width"), 10);
-      padding_top = parseInt(parent.css("padding-top"), 10);
-      padding_bottom = parseInt(parent.css("padding-bottom"));
-      parent_top = parent.offset().top + border_top + padding_top;
-      parent_height = parent.height();
-      height = elm.outerHeight(true);
+      recalc = function() {
+        var border_top, padding_top;
+        border_top = parseInt(parent.css("border-top-width"), 10);
+        padding_top = parseInt(parent.css("padding-top"), 10);
+        padding_bottom = parseInt(parent.css("padding-bottom"));
+        parent_top = parent.offset().top + border_top + padding_top;
+        parent_height = parent.height();
+        return height = elm.outerHeight(true);
+      };
+      recalc();
       if (height === parent_height) {
         return;
       }
+      parent.on("sticky_kit:recalc", recalc);
       float = elm.css("float");
       spacer = $("<div />").css({
         width: elm.outerWidth(true),

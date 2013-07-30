@@ -2,25 +2,29 @@
 @license WTFPL | Leaf Corcoran 2013 | http://leafo.net
 ###
 
-$ = @jQuery || @Zepto
+$ = @jQuery
 
 win = $ window
 $.fn.stick_in_parent = (parent_selector) ->
   sticky_class = "is_stuck"
 
   for elm in @
-    do (elm = $ elm) ->
+    ((elm, padding_bottom, parent_top, parent_height, height) ->
       parent = elm.parent parent_selector
 
-      border_top = parseInt parent.css("border-top-width"), 10
-      padding_top = parseInt parent.css("padding-top"), 10
-      padding_bottom = parseInt parent.css("padding-bottom")
+      recalc = ->
+        border_top = parseInt parent.css("border-top-width"), 10
+        padding_top = parseInt parent.css("padding-top"), 10
+        padding_bottom = parseInt parent.css("padding-bottom")
 
-      parent_top = parent.offset().top + border_top + padding_top
+        parent_top = parent.offset().top + border_top + padding_top
+        parent_height = parent.height()
 
-      parent_height = parent.height()
-      height = elm.outerHeight true
+        height = elm.outerHeight true
+
+      recalc()
       return if height == parent_height
+      parent.on "sticky_kit:recalc", recalc
 
       # create a spacer
       float = elm.css "float"
@@ -37,7 +41,7 @@ $.fn.stick_in_parent = (parent_selector) ->
       last_pos = undefined
       offset = 0
 
-      win.on "scroll", (e) =>
+      win.on "scroll", (e) ->
         scroll = win.scrollTop()
         if last_pos?
           delta = scroll - last_pos
@@ -116,6 +120,7 @@ $.fn.stick_in_parent = (parent_selector) ->
               bottom: padding_bottom
               top: ""
             }).trigger("sticky_kit:bottom")
+    ) $ elm
   @
 
 
