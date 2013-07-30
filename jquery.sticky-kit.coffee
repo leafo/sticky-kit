@@ -45,11 +45,11 @@ $.fn.stick_in_parent = (parent_selector) ->
           # unbottom
           if bottomed && !will_bottom
             bottomed = false
-            elm.css {
+            elm.css({
               position: "fixed"
               bottom: ""
               top: 0
-            }
+            }).trigger("sticky_kit:unbottom")
 
           # unfixing
           if scroll < parent_top
@@ -62,7 +62,7 @@ $.fn.stick_in_parent = (parent_selector) ->
             spacer.detach()
             elm.css({
               position: ""
-            }).removeClass(sticky_class)
+            }).removeClass(sticky_class).trigger("sticky_kit:unstick")
 
           # updated offset
           win_height = win.height()
@@ -91,6 +91,8 @@ $.fn.stick_in_parent = (parent_selector) ->
             if float == "left" || float == "right"
               spacer.append elm
 
+            elm.trigger("sticky_kit:stick")
+
         # this is down here because we can fix and bottom in same step when
         # scrolling huge
         if fixed
@@ -105,11 +107,11 @@ $.fn.stick_in_parent = (parent_selector) ->
                 position: "relative"
               }
 
-            elm.css {
+            elm.css({
               position: "absolute"
               bottom: padding_bottom
               top: ""
-            }
+            }).trigger("sticky_kit:bottom")
   @
 
 

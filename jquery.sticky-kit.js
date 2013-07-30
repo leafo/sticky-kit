@@ -48,7 +48,7 @@
               position: "fixed",
               bottom: "",
               top: 0
-            });
+            }).trigger("sticky_kit:unbottom");
           }
           if (scroll < parent_top) {
             fixed = false;
@@ -59,7 +59,7 @@
             spacer.detach();
             elm.css({
               position: ""
-            }).removeClass(sticky_class);
+            }).removeClass(sticky_class).trigger("sticky_kit:unstick");
           }
           win_height = win.height();
           if (height > win_height) {
@@ -84,6 +84,7 @@
             if (float === "left" || float === "right") {
               spacer.append(elm);
             }
+            elm.trigger("sticky_kit:stick");
           }
         }
         if (fixed) {
@@ -101,7 +102,7 @@
               position: "absolute",
               bottom: padding_bottom,
               top: ""
-            });
+            }).trigger("sticky_kit:bottom");
           }
         }
       });

@@ -10,6 +10,9 @@
 
     .item {
       display: inline-block;
+      zoom: 1;
+      *display: inline;
+
       vertical-align: top;
       border: 1px solid blue;
       min-width: 200px;
@@ -93,6 +96,13 @@
   <div class="item full"></div>
 </div>
 
+<h1>Events</h1>
+<div class="container one" id="events_container">
+  <div class="item"></div>
+  <div class="item half"></div>
+  <div class="item full"></div>
+</div>
+
 <h1>Floating Columns</h1>
 <div class="container one clearfix borders">
   <div class="item float"></div>
@@ -120,7 +130,6 @@
   <div class="item float half" style="margin: 10px"></div>
   <div class="item float full" style="margin: 10px"></div>
 </div>
-
 
 <h1>No Stick</h1>
 <div class="container one">
@@ -150,6 +159,22 @@
     }
 
     $(".container .item").stick_in_parent();
+    $("#events_container").on("sticky_kit:stick", function(e) {
+      $(e.target).html("got stick event");
+    });
+
+    $("#events_container").on("sticky_kit:unstick", function(e) {
+      $(e.target).html("got unstick event");
+    });
+
+    $("#events_container").on("sticky_kit:bottom", function(e) {
+      $(e.target).html("got bottom event");
+    });
+
+    $("#events_container").on("sticky_kit:unbottom", function(e) {
+      $(e.target).html("got unbottom event");
+    });
+
   })();
 </script>
 
