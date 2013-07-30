@@ -40,6 +40,17 @@ $.fn.stick_in_parent = (parent_selector) ->
         last_pos = scroll
 
         if fixed
+          will_bottom = scroll + height + offset > parent_height + parent_top
+
+          # unbottom
+          if bottomed && !will_bottom
+            bottomed = false
+            elm.css {
+              position: "fixed"
+              bottom: ""
+              top: 0
+            }
+
           # unfixing
           if scroll < parent_top
             fixed = false
@@ -55,32 +66,7 @@ $.fn.stick_in_parent = (parent_selector) ->
               "margin-right": ""
             }).removeClass(sticky_class)
 
-
-          # bottomed out
-          if scroll + height + offset > parent_height + parent_top
-            if !bottomed
-              bottomed = true
-              if parent.css("position") == "static"
-                parent.css {
-                  position: "relative"
-                }
-
-              elm.css {
-                position: "absolute"
-                bottom: padding_bottom
-                top: ""
-              }
-
-          else
-            if bottomed
-              bottomed = false
-              elm.css {
-                position: "fixed"
-                bottom: ""
-                top: 0
-              }
-
-
+          # updated offset
           win_height = win.height()
           if height > win_height # bigger than viewport
             unless bottomed
@@ -92,7 +78,6 @@ $.fn.stick_in_parent = (parent_selector) ->
               elm.css {
                 top: offset + "px"
               }
-
 
         else
           # fixing
@@ -108,6 +93,25 @@ $.fn.stick_in_parent = (parent_selector) ->
             if float == "left" || float == "right"
               spacer.append elm
 
+        # this is down here because we can fix and bottom in same step when
+        # scrolling huge
+        if fixed
+          will_bottom ?= scroll + height + offset > parent_height + parent_top
+
+          # bottomed
+          if !bottomed && will_bottom
+            # bottomed out
+            bottomed = true
+            if parent.css("position") == "static"
+              parent.css {
+                position: "relative"
+              }
+
+            elm.css {
+              position: "absolute"
+              bottom: padding_bottom
+              top: ""
+            }
   @
 
 

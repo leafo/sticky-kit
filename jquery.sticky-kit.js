@@ -34,13 +34,22 @@
       last_pos = void 0;
       offset = 0;
       return win.on("scroll", function(e) {
-        var before, css, delta, scroll, win_height;
+        var before, css, delta, scroll, will_bottom, win_height;
         scroll = win.scrollTop();
         if (last_pos != null) {
           delta = scroll - last_pos;
         }
         last_pos = scroll;
         if (fixed) {
+          will_bottom = scroll + height + offset > parent_height + parent_top;
+          if (bottomed && !will_bottom) {
+            bottomed = false;
+            elm.css({
+              position: "fixed",
+              bottom: "",
+              top: 0
+            });
+          }
           if (scroll < parent_top) {
             fixed = false;
             offset = 0;
@@ -54,30 +63,6 @@
               "margin-right": ""
             }).removeClass(sticky_class);
           }
-          if (scroll + height + offset > parent_height + parent_top) {
-            if (!bottomed) {
-              bottomed = true;
-              if (parent.css("position") === "static") {
-                parent.css({
-                  position: "relative"
-                });
-              }
-              elm.css({
-                position: "absolute",
-                bottom: padding_bottom,
-                top: ""
-              });
-            }
-          } else {
-            if (bottomed) {
-              bottomed = false;
-              elm.css({
-                position: "fixed",
-                bottom: "",
-                top: 0
-              });
-            }
-          }
           win_height = win.height();
           if (height > win_height) {
             if (!bottomed) {
@@ -85,7 +70,7 @@
               before = offset;
               offset = Math.max(win_height - height, offset);
               offset = Math.min(0, offset);
-              return elm.css({
+              elm.css({
                 top: offset + "px"
               });
             }
@@ -99,8 +84,26 @@
             };
             elm.css(css).addClass(sticky_class).after(spacer);
             if (float === "left" || float === "right") {
-              return spacer.append(elm);
+              spacer.append(elm);
             }
+          }
+        }
+        if (fixed) {
+          if (will_bottom == null) {
+            will_bottom = scroll + height + offset > parent_height + parent_top;
+          }
+          if (!bottomed && will_bottom) {
+            bottomed = true;
+            if (parent.css("position") === "static") {
+              parent.css({
+                position: "relative"
+              });
+            }
+            return elm.css({
+              position: "absolute",
+              bottom: padding_bottom,
+              top: ""
+            });
           }
         }
       });
