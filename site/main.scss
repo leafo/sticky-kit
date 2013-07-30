@@ -1,0 +1,49 @@
+
+$site_width: 700px;
+
+body {
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: 20px;
+    margin-bottom: 400px;
+}
+
+h1 {
+    margin: 40px 0;
+}
+
+p {
+    line-height: 22px;
+    margin: 20px 0;
+
+    code {
+        background: #eee;
+        padding: 2px 4px;
+        border-radius: 4px;
+        border: 1px solid darken(#eee, 5%);
+    }
+}
+
+.body {
+    width: $site_width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+iframe {
+    width: 100%;
+    border: 1px solid silver;
+    height: 200px;
+}
+
+
+.example {
+    margin: 20px 0;
+    .example_controls {
+        button {
+            margin: 0;
+            float: right;
+        }
+    }
+}
+

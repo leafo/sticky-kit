@@ -1,0 +1,80 @@
+
+$viewport_height: 200px;
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 30px;
+    margin: 10px;
+}
+
+.content {
+    overflow: hidden;
+
+    &.right {
+        .sidebar {
+            float: right;
+            margin: 10px;
+            margin-left: 0;
+        }
+
+        .main {
+            margin: 10px;
+            margin-right: 220px;
+        }
+    }
+
+    &.double {
+        .main {
+            margin-left: 430px + 4;
+        }
+    }
+
+    .sidebar {
+        width: 200px;
+        height: floor($viewport_height / 3);
+        margin: 10px;
+        margin-right: 0;
+
+        border: 1px solid red;
+        float: left;
+
+        &.alt {
+            height: floor($viewport_height * (2/3));
+        }
+
+        &.tall {
+            height: $viewport_height * 2;
+        }
+    }
+
+    .main {
+        margin: 10px;
+        margin-left: 220px + 2;
+
+        border: 1px solid blue;
+        height: $viewport_height * 2;
+
+        &.short {
+            height: floor($viewport_height * (2/3));
+        }
+
+        &.tall {
+            height: $viewport_height * 3;
+        }
+    }
+}
+
+.footer {
+    margin: 10px;
+    text-align: center;
+    font-size: 13px;
+    border-top: 1px dashed #dadada;
+    color: #666;
+    padding-top: 10px;
+    min-height: floor($viewport_height * (2/3));
+}

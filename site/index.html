@@ -1,0 +1,91 @@
+
+<div class="body">
+
+<h1>Basic Sticking</h1>
+
+<div class="example">
+
+$markdown{[[
+Just call `stick_in_parent` on the elements you want to be stuck inside of
+their parent. Sticky elements "bottom out" so they never leave the container,
+no more worrying if a sticky element will accidentally cover your footer.
+]]}
+
+<div class="example_controls">
+<button>Scroll it!</button>
+$markdown{[[
+```js
+$(".sidebar").stick_in_parent()
+```
+]]}
+</div>
+<iframe src="$root/examples/1.html" frameborder="0"></iframe>
+</div>
+
+
+<h1>Many Sticky Items</h1>
+
+<div class="example">
+
+$markdown{[[
+Have a lot of sticky columns, or different sticky portions of the page? Call
+`stick_in_parent` on all the elements at once.
+]]}
+
+<div class="example_controls">
+<button>Scroll it!</button>
+$markdown{[[
+```js
+$(".sticky_column").stick_in_parent()
+```
+]]}
+</div>
+<iframe src="$root/examples/2.html" frameborder="0"></iframe>
+</div>
+
+
+<div class="example">
+$markdown{[[
+Not sure if your sidebar or your main content is taller? Doesn't matter, just
+call `stick_in_parent` on all columns. Sticky-kit will only stick items if they
+don't take up the entire height of their parent.
+]]}
+
+<div class="example_controls">
+<button>Scroll it!</button>
+$markdown{[[
+```js
+$(".sidebar, .main_column").stick_in_parent()
+```
+]]}
+</div>
+<iframe src="$root/examples/3.html" frameborder="0"></iframe>
+
+</div>
+
+<h1>Scrollable Sticky Element</h1>
+
+<div class="example">
+$markdown{[[
+Sticky elements taller than the viewport can scroll independently up and down,
+meaning you don't have to worry about your content being cut off should the
+sticky element be too tall or the user's resolution too small.
+]]}
+
+<div class="example_controls">
+<button>Scroll it!</button>
+$markdown{[[
+```js
+$(".sidebar").stick_in_parent()
+```
+]]}
+</div>
+<iframe src="$root/examples/4.html" frameborder="0"></iframe>
+</div>
+
+
+
+
+
+
+</div>
