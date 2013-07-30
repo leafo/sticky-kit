@@ -12,9 +12,22 @@
 
   win = $(window);
 
-  $.fn.stick_in_parent = function(parent_selector) {
-    var elm, sticky_class, _fn, _i, _len;
-    sticky_class = "is_stuck";
+  $.fn.stick_in_parent = function(parent_selector, opts) {
+    var elm, inner_scrolling, sticky_class, _fn, _i, _len;
+    if (opts == null) {
+      opts = {};
+    }
+    if ($.isPlainObject(parent_selector)) {
+      opts = parent_selector;
+      parent_selector = void 0;
+    }
+    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling;
+    if (inner_scrolling == null) {
+      inner_scrolling = true;
+    }
+    if (sticky_class == null) {
+      sticky_class = "is_stuck";
+    }
     _fn = function(elm, padding_bottom, parent_top, parent_height, height) {
       var bottomed, fixed, float, last_pos, offset, parent, recalc, spacer;
       parent = elm.parent();
@@ -74,16 +87,18 @@
               position: ""
             }).removeClass(sticky_class).trigger("sticky_kit:unstick");
           }
-          win_height = win.height();
-          if (height > win_height) {
-            if (!bottomed) {
-              offset -= delta;
-              before = offset;
-              offset = Math.max(win_height - height, offset);
-              offset = Math.min(0, offset);
-              elm.css({
-                top: offset + "px"
-              });
+          if (inner_scrolling) {
+            win_height = win.height();
+            if (height > win_height) {
+              if (!bottomed) {
+                offset -= delta;
+                before = offset;
+                offset = Math.max(win_height - height, offset);
+                offset = Math.min(0, offset);
+                elm.css({
+                  top: offset + "px"
+                });
+              }
             }
           }
         } else {

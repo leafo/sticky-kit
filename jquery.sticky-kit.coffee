@@ -5,8 +5,14 @@
 $ = @jQuery
 
 win = $ window
-$.fn.stick_in_parent = (parent_selector) ->
-  sticky_class = "is_stuck"
+$.fn.stick_in_parent = (parent_selector, opts={}) ->
+  if $.isPlainObject parent_selector
+    opts = parent_selector
+    parent_selector = undefined
+
+  { sticky_class, inner_scrolling } = opts
+  inner_scrolling ?= true
+  sticky_class ?= "is_stuck"
 
   for elm in @
     ((elm, padding_bottom, parent_top, parent_height, height) ->
@@ -74,17 +80,18 @@ $.fn.stick_in_parent = (parent_selector) ->
             }).removeClass(sticky_class).trigger("sticky_kit:unstick")
 
           # updated offset
-          win_height = win.height()
-          if height > win_height # bigger than viewport
-            unless bottomed
-              offset -= delta
-              before = offset
-              offset = Math.max win_height - height, offset
-              offset = Math.min 0, offset
+          if inner_scrolling
+            win_height = win.height()
+            if height > win_height # bigger than viewport
+              unless bottomed
+                offset -= delta
+                before = offset
+                offset = Math.max win_height - height, offset
+                offset = Math.min 0, offset
 
-              elm.css {
-                top: offset + "px"
-              }
+                elm.css {
+                  top: offset + "px"
+                }
 
         else
           # fixing
