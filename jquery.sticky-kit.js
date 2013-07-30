@@ -29,7 +29,7 @@
       sticky_class = "is_stuck";
     }
     _fn = function(elm, padding_bottom, parent_top, parent_height, height) {
-      var bottomed, fixed, float, last_pos, offset, parent, recalc, spacer;
+      var bottomed, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer;
       parent = elm.parent();
       if (parent_selector != null) {
         parent = parent.closest(parent_selector);
@@ -59,6 +59,7 @@
       bottomed = false;
       last_pos = void 0;
       offset = 0;
+      reset_width = false;
       return win.on("scroll", function(e) {
         var before, css, delta, scroll, will_bottom, win_height;
         scroll = win.scrollTop();
@@ -83,9 +84,13 @@
               elm.insertAfter(spacer);
             }
             spacer.detach();
-            elm.css({
+            css = {
               position: ""
-            }).removeClass(sticky_class).trigger("sticky_kit:unstick");
+            };
+            if (reset_width) {
+              css.width = "";
+            }
+            elm.css(css).removeClass(sticky_class).trigger("sticky_kit:unstick");
           }
           if (inner_scrolling) {
             win_height = win.height();
@@ -108,6 +113,10 @@
               position: "fixed",
               top: offset
             };
+            if (float === "none" && elm.css("display") === "block") {
+              css.width = elm.width() + "px";
+              reset_width = true;
+            }
             elm.css(css).addClass(sticky_class).after(spacer);
             if (float === "left" || float === "right") {
               spacer.append(elm);

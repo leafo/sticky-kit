@@ -47,6 +47,7 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
       bottomed = false
       last_pos = undefined
       offset = 0
+      reset_width = false
 
       win.on "scroll", (e) ->
         scroll = win.scrollTop()
@@ -75,9 +76,11 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
               elm.insertAfter spacer
 
             spacer.detach()
-            elm.css({
+            css = {
               position: ""
-            }).removeClass(sticky_class).trigger("sticky_kit:unstick")
+            }
+            css.width = "" if reset_width
+            elm.css(css).removeClass(sticky_class).trigger("sticky_kit:unstick")
 
           # updated offset
           if inner_scrolling
@@ -101,6 +104,10 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
               position: "fixed"
               top: offset
             }
+
+            if float == "none" && elm.css("display") == "block"
+              css.width = elm.width() + "px"
+              reset_width = true
 
             elm.css(css).addClass(sticky_class).after(spacer)
 
