@@ -12,16 +12,15 @@
 
   win = $(window);
 
-  $.fn.stick_in_parent = function(parent_selector, opts) {
-    var elm, inner_scrolling, sticky_class, _fn, _i, _len;
+  $.fn.stick_in_parent = function(opts) {
+    var elm, inner_scrolling, parent_selector, sticky_class, _fn, _i, _len;
     if (opts == null) {
       opts = {};
     }
-    if ($.isPlainObject(parent_selector)) {
-      opts = parent_selector;
+    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling, parent_selector = opts.parent;
+    if (parent_selector == null) {
       parent_selector = void 0;
     }
-    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling;
     if (inner_scrolling == null) {
       inner_scrolling = true;
     }
@@ -33,6 +32,9 @@
       parent = elm.parent();
       if (parent_selector != null) {
         parent = parent.closest(parent_selector);
+      }
+      if (!parent.length) {
+        throw "failed to find stick parent";
       }
       recalc = function() {
         var border_top, padding_top;

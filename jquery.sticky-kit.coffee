@@ -5,12 +5,9 @@
 $ = @jQuery
 
 win = $ window
-$.fn.stick_in_parent = (parent_selector, opts={}) ->
-  if $.isPlainObject parent_selector
-    opts = parent_selector
-    parent_selector = undefined
-
-  { sticky_class, inner_scrolling } = opts
+$.fn.stick_in_parent = (opts={}) ->
+  { sticky_class, inner_scrolling, parent: parent_selector } = opts
+  parent_selector ?= undefined
   inner_scrolling ?= true
   sticky_class ?= "is_stuck"
 
@@ -18,6 +15,7 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
     ((elm, padding_bottom, parent_top, parent_height, height) ->
       parent = elm.parent()
       parent = parent.closest(parent_selector) if parent_selector?
+      throw "failed to find stick parent" unless parent.length
 
       recalc = ->
         border_top = parseInt parent.css("border-top-width"), 10
