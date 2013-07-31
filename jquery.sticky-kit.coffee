@@ -22,7 +22,7 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
       recalc = ->
         border_top = parseInt parent.css("border-top-width"), 10
         padding_top = parseInt parent.css("padding-top"), 10
-        padding_bottom = parseInt parent.css("padding-bottom")
+        padding_bottom = parseInt parent.css("padding-bottom"), 10
 
         parent_top = parent.offset().top + border_top + padding_top
         parent_height = parent.height()
@@ -31,7 +31,6 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
 
       recalc()
       return if height == parent_height
-      parent.on "sticky_kit:recalc", recalc
 
       # create a spacer
       float = elm.css "float"
@@ -49,7 +48,7 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
       offset = 0
       reset_width = false
 
-      win.on "scroll", (e) ->
+      tick = ->
         scroll = win.scrollTop()
         if last_pos?
           delta = scroll - last_pos
@@ -135,6 +134,12 @@ $.fn.stick_in_parent = (parent_selector, opts={}) ->
               bottom: padding_bottom
               top: ""
             }).trigger("sticky_kit:bottom")
+
+      win.on "scroll", tick
+      $(document.body).on "sticky_kit:recalc", ->
+        recalc()
+        tick()
+
     ) $ elm
   @
 

@@ -29,7 +29,7 @@
       sticky_class = "is_stuck";
     }
     _fn = function(elm, padding_bottom, parent_top, parent_height, height) {
-      var bottomed, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer;
+      var bottomed, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer, tick;
       parent = elm.parent();
       if (parent_selector != null) {
         parent = parent.closest(parent_selector);
@@ -38,7 +38,7 @@
         var border_top, padding_top;
         border_top = parseInt(parent.css("border-top-width"), 10);
         padding_top = parseInt(parent.css("padding-top"), 10);
-        padding_bottom = parseInt(parent.css("padding-bottom"));
+        padding_bottom = parseInt(parent.css("padding-bottom"), 10);
         parent_top = parent.offset().top + border_top + padding_top;
         parent_height = parent.height();
         return height = elm.outerHeight(true);
@@ -47,7 +47,6 @@
       if (height === parent_height) {
         return;
       }
-      parent.on("sticky_kit:recalc", recalc);
       float = elm.css("float");
       spacer = $("<div />").css({
         width: elm.outerWidth(true),
@@ -60,7 +59,7 @@
       last_pos = void 0;
       offset = 0;
       reset_width = false;
-      return win.on("scroll", function(e) {
+      tick = function() {
         var before, css, delta, scroll, will_bottom, win_height;
         scroll = win.scrollTop();
         if (last_pos != null) {
@@ -142,6 +141,11 @@
             }).trigger("sticky_kit:bottom");
           }
         }
+      };
+      win.on("scroll", tick);
+      return $(document.body).on("sticky_kit:recalc", function() {
+        recalc();
+        return tick();
       });
     };
     for (_i = 0, _len = this.length; _i < _len; _i++) {
