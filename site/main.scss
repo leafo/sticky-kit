@@ -12,7 +12,7 @@ h1 {
     margin: 40px 0;
 }
 
-p {
+p, ul {
     line-height: 22px;
     margin: 20px 0;
 
@@ -23,6 +23,12 @@ p {
         border: 1px solid darken(#eee, 5%);
     }
 }
+
+
+li {
+    margin: 15px 0;
+}
+
 
 .body {
     width: $site_width;

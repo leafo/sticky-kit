@@ -1,7 +1,9 @@
 
 <div class="body">
 
-<h1>Basic Sticking</h1>
+<h1>Examples</h1>
+
+<h2>Basic Sticking</h2>
 
 <div class="example">
 
@@ -15,7 +17,7 @@ no more worrying if a sticky element will accidentally cover your footer.
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$(".sidebar").stick_in_parent()
+$("#sidebar").stick_in_parent()
 ```
 ]]}
 </div>
@@ -23,7 +25,7 @@ $(".sidebar").stick_in_parent()
 </div>
 
 
-<h1>Many Sticky Items</h1>
+<h2>Many Sticky Items</h2>
 
 <div class="example">
 
@@ -55,7 +57,7 @@ don't take up the entire height of their parent.
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$(".sidebar, .main_column").stick_in_parent()
+$("#sidebar, #main_column").stick_in_parent()
 ```
 ]]}
 </div>
@@ -63,7 +65,7 @@ $(".sidebar, .main_column").stick_in_parent()
 
 </div>
 
-<h1>Scrollable Sticky Element</h1>
+<h2>Scrollable Sticky Element</h2>
 
 <div class="example">
 $markdown{[[
@@ -76,7 +78,7 @@ sticky element be too tall or the user's resolution too small.
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$(".sidebar").stick_in_parent()
+$("#sidebar").stick_in_parent()
 ```
 ]]}
 </div>
@@ -85,7 +87,86 @@ $(".sidebar").stick_in_parent()
 
 
 
+<h1>Reference</h1>
+$markdown{[[
+
+Usage:
+
+```js
+$("#sticky_item").stick_in_parent()
+// or
+$("#sticky_item").stick_in_parent(options)
+```
+
+`options` is an optional hash of options to configure how Sticky Kit works. The
+following options are accepted:
+
+* `parent` -- Controls which element will be the parent of the sticky item. The
+  dimensions of the parent control when the sticky element sticks and bottoms
+  out. Defaults to the closest parent of the sticky element.
+* `inner_scrolling` -- Boolean to enable or disable the ability of the sticky
+  element to scroll independently of the scrollbar when it's taller than the
+  viewport. Defaults to `true` for enabled.
+* `sticky_class` -- the name of the CSS class to apply to elements when they
+  have become stuck. Defaults to `"is_stuck"`.
+
+### Events
+
+Various events are triggered from a sticky element when its state changes.
+They are:
+
+* `sticky_kit:stick` -- Triggered when element becomes stuck.
+* `sticky_kit:unstick` -- Triggered when element becomes unstuck. (Note: an
+  element is still considered stuck when it has bottomed out)
+* `sticky_kit:bottom` -- Triggered when element bottoms out.
+* `sticky_kit:unbottom` -- Triggered when element is no longer bottomed out.
 
 
+For example, if we want to log when an element sticks and unsticks we might do:
+
+```js
+$("#sticky_item").stick_in_parent()
+  .on("sticky_kit:stick", function(e) {
+    console.log("has stuck!", e.target);
+  })
+  .on("sticky_kit:unstick", function(e) {
+    console.log("has unstuck!", e.target);
+  })
+```
+
+Sticky kit listens to one event on `document.body`.
+
+* `sticky_kit:recalc` -- trigger this event to cause all sticky elements to be
+  recalculated. More information below.
+
+### Recalculating Sticky Elements
+
+If you're changing the markup of your page on the fly by removing, adding or
+resizing elements then you most likely need to tell Sticky Kit to recalculate
+the sticky elements to guarantee they still in the correct positions.
+
+You can cause a recalculation to happen by triggering an event on the `document.body`:
+
+```js
+$(document.body).trigger("sticky_kit:recalc")
+```
+
+Typically you only need to trigger a recalculation if you are changing the
+positions/sizes of elements above the sticky element, adjacent to it, or the
+sticky element itself.
+
+### About Columns
+
+If you're familiar with HTML and CSS then you probably know there are a handful
+of different ways to make columns. Sticky kit works automatically with floated
+columns or `inline-block` columns.
+
+### Browser Support
+
+Sticky Kit works with all modern browsers, and IE7+.
+
+Note: only floated columns work in IE7.
+
+]]}
 
 </div>
