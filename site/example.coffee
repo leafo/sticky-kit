@@ -1,7 +1,7 @@
 
 # make it sticky
 $ ->
-  $("[data-sticky_column]").stick_in_parent()
+  $("[data-sticky_column]").stick_in_parent(parent: "[data-sticky_parent]")
 
 window.scroll_it = ->
   max = $(document).height() - $(window).height()

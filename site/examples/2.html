@@ -2,16 +2,18 @@
 <h1>My Better Site</h1>
 
 <div class="content double" data-sticky_parent>
-  <div class="sidebar" data-sticky_column>
+
+  <div class="sidebar alt" data-sticky_column>
     Welcome to my sidebar
   </div>
 
-  <div class="sidebar alt" data-sticky_column>
-   Another Sticky Item 
+  <div class="sidebar flat">
+    <div class="inner static">One</div>
+    <div class="inner" data-sticky_column>two</div>
   </div>
 
   <div class="main" data-sticky_column>
-    This is the main column.
+    This is the main column
   </div>
 </div>
 
@@ -20,8 +22,10 @@
     Welcome to my sidebar
   </div>
 
-  <div class="main" data-sticky_column>
-    This is the main column.
+  <div class="main inline_columns" data-sticky_column data-sticky_parent>
+    <div class="item">Hello</div>
+    <div class="item sticky" data-sticky_column>Sticky</div>
+    <div class="item">World!</div>
   </div>
 </div>
 
