@@ -146,6 +146,7 @@
         }
       };
       win.on("scroll", tick);
+      setTimeout(tick, 0);
       return $(document.body).on("sticky_kit:recalc", function() {
         recalc();
         return tick();

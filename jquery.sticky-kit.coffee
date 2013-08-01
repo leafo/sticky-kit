@@ -135,6 +135,7 @@ $.fn.stick_in_parent = (opts={}) ->
             }).trigger("sticky_kit:bottom")
 
       win.on "scroll", tick
+      setTimeout tick, 0
       $(document.body).on "sticky_kit:recalc", ->
         recalc()
         tick()
