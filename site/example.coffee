@@ -9,7 +9,6 @@ reset_scroll = ->
   scroller.stop(true)
 
   if $(window).scrollTop() != 0
-    console.log "resetting"
     scroller.animate({ scrollTop: 0}, "fast")
 
   scroller

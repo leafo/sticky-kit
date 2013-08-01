@@ -1,7 +1,31 @@
 
-<div class="body">
+<div class="nav">
+  <div class="nav_social hidden">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://leafo.net/sticky-kit/" data-text="scssphp v$current_version - SCSS compiler for PHP" data-count="horizontal" data-via="moonscript">Tweet</a>
+    <a href="https://twitter.com/moonscript" class="twitter-follow-button" data-width="70px" data-show-count="false" data-show-screen-name="false">Follow @moonscript</a>
+  </div>
 
-<h1>Examples</h1>
+  <a href="#examples">Examples</a>
+  <a href="#reference">Reference</a>
+  <a href="" class="hidden">Download</a>
+</div>
+
+
+$markdown{[[
+Sticky-kit provides an easy way to attach elements to the page when the user
+scrolls such that the element is always visible. It is written in CoffeeScript
+and the source can be found on [GitHub](https://github.com/leafo/sticky-kit).
+]]}
+
+<div class="github_buttons">
+<iframe src="http://ghbtns.com/github-btn.html?user=leafo&repo=sticky-kit&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
+<iframe src="http://ghbtns.com/github-btn.html?user=leafo&repo=sticky-kit&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95px" height="20px"></iframe>
+</div>
+
+<h1>
+  Examples
+  <a name="examples" class="anchor"></a>
+</h1>
 
 <h2>Basic Sticking</h2>
 
@@ -21,7 +45,13 @@ $("#sidebar").stick_in_parent()
 ```
 ]]}
 </div>
-<iframe src="$root/examples/1.html" frameborder="0"></iframe>
+
+<div class="window_frame pink">
+  <div class="window_title">Demo Browser</div>
+  <div class="window_inner">
+    <iframe src="$root/examples/1.html" frameborder="0"></iframe>
+  </div>
+</div>
 </div>
 
 
@@ -42,7 +72,13 @@ $(".sticky_column").stick_in_parent()
 ```
 ]]}
 </div>
-<iframe src="$root/examples/2.html" frameborder="0"></iframe>
+
+<div class="window_frame pink">
+  <div class="window_title">Demo Browser</div>
+  <div class="window_inner">
+    <iframe src="$root/examples/2.html" frameborder="0"></iframe>
+  </div>
+</div>
 </div>
 
 
@@ -61,8 +97,13 @@ $("#sidebar, #main_column").stick_in_parent()
 ```
 ]]}
 </div>
-<iframe src="$root/examples/3.html" frameborder="0"></iframe>
 
+<div class="window_frame pink">
+  <div class="window_title">Demo Browser</div>
+  <div class="window_inner">
+    <iframe src="$root/examples/3.html" frameborder="0"></iframe>
+  </div>
+</div>
 </div>
 
 <h2>Scrollable Sticky Element</h2>
@@ -82,13 +123,23 @@ $("#sidebar").stick_in_parent()
 ```
 ]]}
 </div>
-<iframe src="$root/examples/4.html" frameborder="0"></iframe>
+<div class="window_frame pink">
+  <div class="window_title">Demo Browser</div>
+  <div class="window_inner">
+    <iframe src="$root/examples/4.html" frameborder="0"></iframe>
+  </div>
+</div>
 </div>
 
 
+<h1>
+  Reference
+  <a name="reference" class="anchor"></a>
+</h1>
 
-<h1>Reference</h1>
 $markdown{[[
+
+To install include `jquery.sticky-kit.js` after including jQuery.
 
 Usage:
 
@@ -101,13 +152,13 @@ $("#sticky_item").stick_in_parent(options)
 `options` is an optional hash of options to configure how Sticky Kit works. The
 following options are accepted:
 
-* `parent` -- Controls which element will be the parent of the sticky item. The
+* `parent` -- The element will be the parent of the sticky item. The
   dimensions of the parent control when the sticky element bottoms out. Defaults
   to the closest parent of the sticky element. Can be a selector.
 * `inner_scrolling` -- Boolean to enable or disable the ability of the sticky
   element to scroll independently of the scrollbar when it's taller than the
   viewport. Defaults to `true` for enabled.
-* `sticky_class` -- the name of the CSS class to apply to elements when they
+* `sticky_class` -- The name of the CSS class to apply to elements when they
   have become stuck. Defaults to `"is_stuck"`.
 
 ### Events
@@ -131,7 +182,7 @@ $("#sticky_item").stick_in_parent()
   })
   .on("sticky_kit:unstick", function(e) {
     console.log("has unstuck!", e.target);
-  })
+  });
 ```
 
 Sticky kit listens to one event on `document.body`.
@@ -145,7 +196,7 @@ If you're changing the markup of your page on the fly by removing, adding or
 resizing elements then you most likely need to tell Sticky Kit to recalculate
 the sticky elements to guarantee they're positioned correctly.
 
-You can cause a recalculation to happen by triggering an event on the `document.body`:
+You can cause a recalculation to happen by triggering an event on `document.body`:
 
 ```js
 $(document.body).trigger("sticky_kit:recalc")
@@ -169,4 +220,3 @@ Note: only floated columns work in IE7.
 
 ]]}
 
-</div>

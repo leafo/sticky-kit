@@ -4,6 +4,7 @@ tools = require"sitegen.tools"
 
 site = sitegen.create_site =>
   @title = "sticky-kit"
+  @version = "1.0.0"
 
   scssphp = tools.system_command "pscss < %s > %s", "css"
   coffeescript = tools.system_command "coffee -c -s < %s > %s", "js"
