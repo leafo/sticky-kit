@@ -14,6 +14,8 @@ site = sitegen.create_site =>
   @full_size = exec("du -bh www/src/jquery.sticky-kit.js | cut -f 1")\lower!
   @compressed_size = exec("du -bh www/src/jquery.sticky-kit.min.js | cut -f 1")\lower!
 
+  deploy_to "leaf@leafo.net", "www/sticky-kit"
+
   scssphp = tools.system_command "pscss < %s > %s", "css"
   coffeescript = tools.system_command "coffee -c -s < %s > %s", "js"
 

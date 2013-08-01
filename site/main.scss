@@ -1,5 +1,6 @@
 
 $site_width: 700px;
+$narrow_site_width: 500px;
 $font_size: 18px;
 
 ::selection {
@@ -218,14 +219,14 @@ li {
 
     .example_controls {
         button {
-            margin: 10px 10px 0 0;
+            margin: 13px 10px 0 0;
             float: right;
         }
     }
 
     iframe {
         display: block;
-        width: 692px;
+        width: $site_width - 8px;
         margin: 0 auto;
         margin-bottom: 1px;
         border: 1px solid silver;
@@ -265,7 +266,7 @@ li {
 // code
 
 .highlight {
-    border: 1px dashed #DADADA;
+    border: 1px dashed #c7c7c7;
     border-radius: 6px;
     padding: 10px;
     margin: 20px 0;
@@ -323,7 +324,7 @@ li {
 
     background: #EDECEB;
 
-    box-shadow: inset 0 0 0 1px #6D6A68, inset 2px 0 0 white, inset 0 0 0 2px #D2D0CE, 0 0 10px rgba(0,0,0, 0.5);
+    box-shadow: inset 0 0 0 1px #6D6A68, inset 2px 0 0 white, inset 0 0 0 2px #D2D0CE, 0 0 10px rgba(0,0,0, 0.3);
     border-radius: 4px 4px 0 0;
 
     .window_inner {
@@ -376,4 +377,35 @@ li {
     }
 }
 
+@media all and (max-width: 1015px) {
+    .forkme {
+        display: none;
+    }
+}
+
+@media all and (max-width: 730px) {
+    .body, .footer .inner {
+        width: $narrow_site_width;
+    }
+
+    .header h1 {
+        font-size: 52px;
+        padding-top: 100px;
+    }
+
+    .nav .nav_social {
+        display: none;
+    }
+
+    .example iframe {
+        width: $narrow_site_width - 8px;
+    }
+
+    .long_example {
+        .highlight {
+            font-size: 15px;
+        }
+    }
+
+}
 

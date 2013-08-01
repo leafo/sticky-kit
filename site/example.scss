@@ -127,3 +127,36 @@ h1 {
 .sub {
     color: #999;
 }
+
+
+@media all and (max-width: 500px) {
+    .content {
+        .sidebar {
+            width: 100px;
+        }
+
+        .item {
+            width: 60px;
+        }
+
+        .main {
+            margin-left: 120px + 2;
+        }
+
+        &.double {
+            .main {
+                margin-left: 230px + 4;
+            }
+        }
+
+        &.right {
+            .main {
+                margin-right: 120px;
+            }
+        }
+
+
+
+    }
+}
+

@@ -33,3 +33,5 @@ window.scroll_it_wobble = ->
     .animate({ scrollTop: 0 }, max*3)
 
 
+$(window).on "resize", (e) =>
+  $(document.body).trigger("sticky_kit:recalc")
