@@ -43,6 +43,9 @@ h1 {
         border: 1px solid red;
         float: left;
 
+        overflow: hidden;
+        font-family: sans-serif;
+
         &.alt {
             height: floor($viewport_height * (2/3));
         }
@@ -51,8 +54,13 @@ h1 {
             height: $viewport_height * 2;
         }
 
+        &.medium {
+            height: $viewport_height * 1.5;
+        }
+
         &.flat {
             border: 0;
+            height: auto;
         }
     }
 
@@ -76,6 +84,8 @@ h1 {
         font-size: 16px;
         margin: 10px;
 
+        overflow: hidden;
+
         &.sticky {
             border: 1px solid red;
         }
@@ -91,6 +101,8 @@ h1 {
 
         border: 1px solid blue;
         height: $viewport_height * 2;
+
+        overflow: hidden;
 
         &.short {
             height: floor($viewport_height * (2/3));
@@ -110,4 +122,8 @@ h1 {
     color: #666;
     padding-top: 10px;
     min-height: floor($viewport_height * (2/3));
+}
+
+.sub {
+    color: #999;
 }
