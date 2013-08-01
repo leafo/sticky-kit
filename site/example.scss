@@ -79,7 +79,6 @@ h1 {
         display: inline-block;
         vertical-align: top;
         width: 120px;
-        height: 100px;
         border: 1px solid blue;
         font-size: 16px;
         margin: 10px;
@@ -88,6 +87,7 @@ h1 {
 
         &.sticky {
             border: 1px solid red;
+            height: 100px;
         }
     }
 
