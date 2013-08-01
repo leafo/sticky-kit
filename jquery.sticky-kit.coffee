@@ -12,7 +12,7 @@ $.fn.stick_in_parent = (opts={}) ->
   sticky_class ?= "is_stuck"
 
   for elm in @
-    ((elm, padding_bottom, parent_top, parent_height, height) ->
+    ((elm, padding_bottom, parent_top, parent_height, top, height) ->
       parent = elm.parent()
       parent = parent.closest(parent_selector) if parent_selector?
       throw "failed to find stick parent" unless parent.length
@@ -25,6 +25,7 @@ $.fn.stick_in_parent = (opts={}) ->
         parent_top = parent.offset().top + border_top + padding_top
         parent_height = parent.height()
 
+        top = elm.offset().top - parseInt elm.css("margin-top"), 10
         height = elm.outerHeight true
 
       recalc()
@@ -65,7 +66,7 @@ $.fn.stick_in_parent = (opts={}) ->
             }).trigger("sticky_kit:unbottom")
 
           # unfixing
-          if scroll < parent_top
+          if scroll < top
             fixed = false
             offset = 0
 
@@ -95,7 +96,7 @@ $.fn.stick_in_parent = (opts={}) ->
 
         else
           # fixing
-          if scroll > parent_top
+          if scroll > top
             fixed = true
             css = {
               position: "fixed"

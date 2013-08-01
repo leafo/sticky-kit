@@ -27,7 +27,7 @@
     if (sticky_class == null) {
       sticky_class = "is_stuck";
     }
-    _fn = function(elm, padding_bottom, parent_top, parent_height, height) {
+    _fn = function(elm, padding_bottom, parent_top, parent_height, top, height) {
       var bottomed, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer, tick;
       parent = elm.parent();
       if (parent_selector != null) {
@@ -43,6 +43,7 @@
         padding_bottom = parseInt(parent.css("padding-bottom"), 10);
         parent_top = parent.offset().top + border_top + padding_top;
         parent_height = parent.height();
+        top = elm.offset().top - parseInt(elm.css("margin-top"), 10);
         return height = elm.outerHeight(true);
       };
       recalc();
@@ -78,7 +79,7 @@
               top: 0
             }).trigger("sticky_kit:unbottom");
           }
-          if (scroll < parent_top) {
+          if (scroll < top) {
             fixed = false;
             offset = 0;
             if (float === "left" || float === "right") {
@@ -108,7 +109,7 @@
             }
           }
         } else {
-          if (scroll > parent_top) {
+          if (scroll > top) {
             fixed = true;
             css = {
               position: "fixed",
