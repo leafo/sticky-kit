@@ -8,7 +8,8 @@
   <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script type="text/javascript" src="$root/main.js"></script>
-  <script type="text/javascript" src="$root/../../jquery.sticky-kit.js"></script>
+  <script type="text/javascript" src="$root/src/jquery.sticky-kit.js"></script>
+  $analytics{"UA-136625-1"}
 </head>
 <body>
 
@@ -18,18 +19,18 @@
   <div class="downloader">
     <div class="download_label">Download v$version</div>
     <div class="download_outer">
-      <a href="" class="download_row top_row">
+      <a href="https://rawgithub.com/leafo/sticky-kit/v$version/jquery.sticky-kit.min.js" class="download_row top_row">
         <span>Compressed</span>
-        <span class="size">22kb</span>
+        <span class="size">$compressed_size</span>
       </a>
-      <a href="" class="download_row">
+      <a href="https://rawgithub.com/leafo/sticky-kit/v$version/jquery.sticky-kit.js" class="download_row">
         <span>Full Source</span>
-        <span class="size">22kb</span>
+        <span class="size">$full_size</span>
       </a>
     </div>
 
     <div class="twitter_buttons">
-      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://leafo.net/sticky-kit/" data-text="scssphp v$current_version - SCSS compiler for PHP" data-count="horizontal" data-via="moonscript">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://leafo.net/sticky-kit/" data-text="sticky-kit v$version - A jQuery plugin for sticky elements" data-count="horizontal" data-via="moonscript">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
       <a href="https://twitter.com/moonscript" class="twitter-follow-button" data-width="70px" data-show-count="false" data-show-screen-name="false">Follow @moonscript</a>
     </div>
 

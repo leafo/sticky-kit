@@ -2,9 +2,17 @@ require "sitegen"
 
 tools = require"sitegen.tools"
 
+exec = (cmd) ->
+  f = io.popen(cmd)
+  with f\read "*a"
+    f\close!
+
 site = sitegen.create_site =>
   @title = "sticky-kit"
   @version = "1.0.0"
+
+  @full_size = exec("du -bh www/src/jquery.sticky-kit.js | cut -f 1")\lower!
+  @compressed_size = exec("du -bh www/src/jquery.sticky-kit.min.js | cut -f 1")\lower!
 
   scssphp = tools.system_command "pscss < %s > %s", "css"
   coffeescript = tools.system_command "coffee -c -s < %s > %s", "js"
