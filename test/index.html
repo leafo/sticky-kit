@@ -52,12 +52,25 @@
         inset 0 -30px 20px -20px rgba(0,0,0,0.2), 0 0 10px red;
     }
 
+    .buttons {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0, 0.2);
+      padding: 10px;
+      z-index: 100;
+    }
+
   </style>
 
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script src="../jquery.sticky-kit.js"></script>
 </head>
 <body>
+
+<div class="buttons">
+  <button class="recalc">Recalc</button>
+</div>
 
 <h1>Basic Stick</h1>
 <div class="container one">
@@ -178,6 +191,11 @@
 
     $("#events_container").on("sticky_kit:unbottom", function(e) {
       $(e.target).html("got unbottom event");
+    });
+
+    $(document.body).on("click", ".recalc", function() {
+      console.log("Triggering recalc");
+      $(document.body).trigger("sticky_kit:recalc")
     });
 
   })();
