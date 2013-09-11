@@ -75,9 +75,11 @@
 <h1>Basic Stick</h1>
 <div class="container one">
   <div class="item"></div>
-  <div class="item full"></div>
+  <div class="item full" id="grow_1"></div>
   <div class="item"></div>
 </div>
+
+<button class="grow_element" data-target="#grow_1">Grow</button>
 
 <h1>Variable</h1>
 <div class="container one">
@@ -157,7 +159,6 @@
 
 <div class="full"></div>
 
-
 <script type="text/javascript">
   (function() {
     var win = $(window);
@@ -196,6 +197,14 @@
     $(document.body).on("click", ".recalc", function() {
       console.log("Triggering recalc");
       $(document.body).trigger("sticky_kit:recalc")
+    });
+
+
+    $(document.body).on("click", ".grow_element", function(e) {
+      var elm = $($(e.currentTarget).data("target"));
+      elm.animate({height: elm.height() * 2}, function() {
+        $(document.body).trigger("sticky_kit:recalc")
+      });
     });
 
   })();
