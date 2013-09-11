@@ -7,7 +7,7 @@
 
   <a href="#examples">Examples</a>
   <a href="#reference">Reference</a>
-  <a href="https://raw.github.com/leafo/sticky-kit/v1.0.0/jquery.sticky-kit.min.js" class="hidden">Download</a>
+  <a href="https://rawgithub.com/leafo/sticky-kit/v$version/jquery.sticky-kit.min.js" class="hidden">Download</a>
 </div>
 
 
@@ -160,6 +160,8 @@ following options are accepted:
   viewport. Defaults to `true` for enabled.
 * `sticky_class` -- The name of the CSS class to apply to elements when they
   have become stuck. Defaults to `"is_stuck"`.
+* `offset_top` -- offsets the initial sticking position by of number of pixels,
+  can be either negative or positive
 
 ### Events
 
@@ -217,6 +219,11 @@ columns or `inline-block` columns.
 Sticky Kit works with all modern browsers, and IE7+.
 
 Note: only floated columns work in IE7.
+
+### Changelog
+
+  * **v1.0.1** *Sept 11, 2013* -- Added offset_top option, fixed recaclc when items are
+    already stuck
 
 ]]}
 
