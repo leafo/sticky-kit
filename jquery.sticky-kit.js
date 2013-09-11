@@ -13,11 +13,14 @@
   win = $(window);
 
   $.fn.stick_in_parent = function(opts) {
-    var elm, inner_scrolling, parent_selector, sticky_class, _fn, _i, _len;
+    var elm, inner_scrolling, offset_top, parent_selector, sticky_class, _fn, _i, _len;
     if (opts == null) {
       opts = {};
     }
-    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling, parent_selector = opts.parent;
+    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling, parent_selector = opts.parent, offset_top = opts.offset_top;
+    if (offset_top == null) {
+      offset_top = 0;
+    }
     if (parent_selector == null) {
       parent_selector = void 0;
     }
@@ -44,7 +47,7 @@
         parent_top = parent.offset().top + border_top + padding_top;
         parent_height = parent.height();
         sizing_elm = elm.is(".is_stuck") ? spacer : elm;
-        top = sizing_elm.offset().top - parseInt(sizing_elm.css("margin-top"), 10);
+        top = sizing_elm.offset().top - parseInt(sizing_elm.css("margin-top"), 10) - offset_top;
         return height = sizing_elm.outerHeight(true);
       };
       recalc();
@@ -62,10 +65,10 @@
       fixed = false;
       bottomed = false;
       last_pos = void 0;
-      offset = 0;
+      offset = offset_top;
       reset_width = false;
       tick = function() {
-        var before, css, delta, scroll, will_bottom, win_height;
+        var css, delta, scroll, will_bottom, win_height;
         scroll = win.scrollTop();
         if (last_pos != null) {
           delta = scroll - last_pos;
@@ -78,12 +81,12 @@
             elm.css({
               position: "fixed",
               bottom: "",
-              top: 0
+              top: offset
             }).trigger("sticky_kit:unbottom");
           }
           if (scroll < top) {
             fixed = false;
-            offset = 0;
+            offset = offset_top;
             if (float === "left" || float === "right") {
               elm.insertAfter(spacer);
             }
@@ -101,9 +104,8 @@
             if (height > win_height) {
               if (!bottomed) {
                 offset -= delta;
-                before = offset;
                 offset = Math.max(win_height - height, offset);
-                offset = Math.min(0, offset);
+                offset = Math.min(offset_top, offset);
                 elm.css({
                   top: offset + "px"
                 });

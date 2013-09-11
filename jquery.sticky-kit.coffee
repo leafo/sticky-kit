@@ -6,7 +6,8 @@ $ = @jQuery
 
 win = $ window
 $.fn.stick_in_parent = (opts={}) ->
-  { sticky_class, inner_scrolling, parent: parent_selector } = opts
+  { sticky_class, inner_scrolling, parent: parent_selector, offset_top } = opts
+  offset_top ?= 0
   parent_selector ?= undefined
   inner_scrolling ?= true
   sticky_class ?= "is_stuck"
@@ -30,7 +31,7 @@ $.fn.stick_in_parent = (opts={}) ->
         else
           elm
 
-        top = sizing_elm.offset().top - parseInt sizing_elm.css("margin-top"), 10
+        top = sizing_elm.offset().top - parseInt(sizing_elm.css("margin-top"), 10) - offset_top
         height = sizing_elm.outerHeight true
 
       recalc()
@@ -50,7 +51,7 @@ $.fn.stick_in_parent = (opts={}) ->
       fixed = false
       bottomed = false
       last_pos = undefined
-      offset = 0
+      offset = offset_top
       reset_width = false
 
       tick = ->
@@ -68,13 +69,13 @@ $.fn.stick_in_parent = (opts={}) ->
             elm.css({
               position: "fixed"
               bottom: ""
-              top: 0
+              top: offset
             }).trigger("sticky_kit:unbottom")
 
           # unfixing
           if scroll < top
             fixed = false
-            offset = 0
+            offset = offset_top
 
             if float == "left" || float == "right"
               elm.insertAfter spacer
@@ -92,9 +93,8 @@ $.fn.stick_in_parent = (opts={}) ->
             if height > win_height # bigger than viewport
               unless bottomed
                 offset -= delta
-                before = offset
                 offset = Math.max win_height - height, offset
-                offset = Math.min 0, offset
+                offset = Math.min offset_top, offset
 
                 elm.css {
                   top: offset + "px"
