@@ -25,8 +25,13 @@ $.fn.stick_in_parent = (opts={}) ->
         parent_top = parent.offset().top + border_top + padding_top
         parent_height = parent.height()
 
-        top = elm.offset().top - parseInt elm.css("margin-top"), 10
-        height = elm.outerHeight true
+        sizing_elm = if elm.is ".is_stuck"
+          spacer
+        else
+          elm
+
+        top = sizing_elm.offset().top - parseInt sizing_elm.css("margin-top"), 10
+        height = sizing_elm.outerHeight true
 
       recalc()
       return if height == parent_height
@@ -38,6 +43,7 @@ $.fn.stick_in_parent = (opts={}) ->
         width: elm.outerWidth true
         height: height
         display: elm.css "display"
+        "vertical-align": elm.css "vertical-align"
         float: float
       })
 

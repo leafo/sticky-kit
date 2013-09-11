@@ -37,14 +37,15 @@
         throw "failed to find stick parent";
       }
       recalc = function() {
-        var border_top, padding_top;
+        var border_top, padding_top, sizing_elm;
         border_top = parseInt(parent.css("border-top-width"), 10);
         padding_top = parseInt(parent.css("padding-top"), 10);
         padding_bottom = parseInt(parent.css("padding-bottom"), 10);
         parent_top = parent.offset().top + border_top + padding_top;
         parent_height = parent.height();
-        top = elm.offset().top - parseInt(elm.css("margin-top"), 10);
-        return height = elm.outerHeight(true);
+        sizing_elm = elm.is(".is_stuck") ? spacer : elm;
+        top = sizing_elm.offset().top - parseInt(sizing_elm.css("margin-top"), 10);
+        return height = sizing_elm.outerHeight(true);
       };
       recalc();
       if (height === parent_height) {
@@ -55,6 +56,7 @@
         width: elm.outerWidth(true),
         height: height,
         display: elm.css("display"),
+        "vertical-align": elm.css("vertical-align"),
         float: float
       });
       fixed = false;
