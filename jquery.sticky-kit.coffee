@@ -83,6 +83,7 @@ $.fn.stick_in_parent = (opts={}) ->
             spacer.detach()
             css = {
               position: ""
+              top: ""
             }
             css.width = "" if reset_width
             elm.css(css).removeClass(sticky_class).trigger("sticky_kit:unstick")
