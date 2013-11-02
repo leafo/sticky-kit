@@ -106,9 +106,11 @@
                 offset -= delta;
                 offset = Math.max(win_height - height, offset);
                 offset = Math.min(offset_top, offset);
-                elm.css({
-                  top: offset + "px"
-                });
+                if (fixed) {
+                  elm.css({
+                    top: offset + "px"
+                  });
+                }
               }
             }
           }
