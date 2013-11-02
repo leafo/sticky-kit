@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style type="text/css">
+  .container {
+    border: 2px gray dashed;
+    padding: 10px;
+  }
+
+  .outer {
+    border: 2px solid red;
+    padding: 10px;
+    overflow: hidden;
+    width: 600px;
+    margin: 0 auto;
+  }
+
+  .left {
+    float: left;
+    height: 5000px;
+    border: 1px solid green;
+  }
+
+  .right {
+    float: right;
+    border: 1px solid blue;
+    position: relative;
+  }
+
+  .right div {
+    margin: 20px 0;
+  }
+
+  .header {
+    border: 1px solid red;
+    width: 600px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    height: 200px;
+  }
+
+  .fixed {
+    height: 95px;
+    position: fixed;
+    background: rgba(255, 0, 0, 0.5);
+    top:0;
+    left:0;
+    right:0;
+  }
+  
+  </style>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="../jquery.sticky-kit.js"></script>
+</head>
+<body>
+<div class="fixed">hello</div>
+
+<div class="container" id="container">
+  <div class="header">The Header</div>
+
+  <div class="outer">
+    <div class="left">Hello world</div>
+    <div class="right">
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+      <div>Piss World</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(".right").stick_in_parent({container: $("#container"), offset_top: 100});
+</script>
+
+</body>
+</html>
