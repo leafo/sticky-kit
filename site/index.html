@@ -187,10 +187,25 @@ $("#sticky_item").stick_in_parent()
   });
 ```
 
-Sticky kit listens to one event on `document.body`.
+Sticky Kit listens to one event on `document.body`.
 
 * `sticky_kit:recalc` -- trigger this event to cause all sticky elements to be
   recalculated. More information below.
+
+
+If you want to remove sticky kit from an element after applying it you can send
+that element a `sticky_kit:detach` event.
+
+Sticky Kit also listens to an event on the sticky elements:
+
+* `sticky_kit:detach` -- remove sticky kit and restore element to original
+  position
+
+For example:
+
+```js
+$("#sticky_item").trigger("sticky_kit:detach");
+```
 
 ### Recalculating Sticky Elements
 
