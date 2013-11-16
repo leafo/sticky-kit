@@ -29,8 +29,8 @@
     if (sticky_class == null) {
       sticky_class = "is_stuck";
     }
-    _fn = function(elm, padding_bottom, parent_top, parent_height, top, height) {
-      var bottomed, detach, fixed, float, last_pos, offset, parent, recalc, recalc_and_tick, reset_width, spacer, tick;
+    _fn = function(elm, padding_bottom, parent_top, parent_height, top, height, float) {
+      var bottomed, detach, fixed, last_pos, offset, parent, recalc, recalc_and_tick, spacer, tick;
       parent = elm.parent();
       if (parent_selector != null) {
         parent = parent.closest(parent_selector);
@@ -38,34 +38,42 @@
       if (!parent.length) {
         throw "failed to find stick parent";
       }
+      fixed = false;
+      spacer = $("<div />");
       recalc = function() {
-        var border_top, padding_top, sizing_elm;
+        var border_top, padding_top, restore;
         border_top = parseInt(parent.css("border-top-width"), 10);
         padding_top = parseInt(parent.css("padding-top"), 10);
         padding_bottom = parseInt(parent.css("padding-bottom"), 10);
         parent_top = parent.offset().top + border_top + padding_top;
         parent_height = parent.height();
-        sizing_elm = elm.is(".is_stuck") ? spacer : elm;
-        top = sizing_elm.offset().top - parseInt(sizing_elm.css("margin-top"), 10) - offset_top;
-        return height = sizing_elm.outerHeight(true);
+        restore = fixed ? (fixed = false, elm.insertAfter(spacer).css({
+          position: "",
+          top: "",
+          width: ""
+        }), spacer.detach(), true) : void 0;
+        top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top;
+        console.log("setting top", top);
+        height = elm.outerHeight(true);
+        float = elm.css("float");
+        spacer.css({
+          width: elm.outerWidth(true),
+          height: height,
+          display: elm.css("display"),
+          "vertical-align": elm.css("vertical-align"),
+          float: float
+        });
+        if (restore) {
+          return tick();
+        }
       };
       recalc();
       if (height === parent_height) {
         return;
       }
-      float = elm.css("float");
-      spacer = $("<div />").css({
-        width: elm.outerWidth(true),
-        height: height,
-        display: elm.css("display"),
-        "vertical-align": elm.css("vertical-align"),
-        float: float
-      });
-      fixed = false;
       bottomed = false;
       last_pos = void 0;
       offset = offset_top;
-      reset_width = false;
       tick = function() {
         var css, delta, scroll, will_bottom, win_height;
         scroll = win.scrollTop();
@@ -92,11 +100,9 @@
             spacer.detach();
             css = {
               position: "",
+              width: "",
               top: ""
             };
-            if (reset_width) {
-              css.width = "";
-            }
             elm.css(css).removeClass(sticky_class).trigger("sticky_kit:unstick");
           }
           if (inner_scrolling) {
@@ -121,10 +127,7 @@
               position: "fixed",
               top: offset
             };
-            if (float === "none" && elm.css("display") === "block") {
-              css.width = elm.width() + "px";
-              reset_width = true;
-            }
+            css.width = elm.width() + "px";
             elm.css(css).addClass(sticky_class).after(spacer);
             if (float === "left" || float === "right") {
               spacer.append(elm);
@@ -165,13 +168,14 @@
           top: ""
         });
         parent.position("position", "");
-        if (elm.is(".is_stuck")) {
-          elm.insertAfter(spacer).removeClass("is_stuck");
+        if (fixed) {
+          elm.insertAfter(spacer).removeClass(sticky_class);
           return spacer.remove();
         }
       };
       win.on("scroll", tick);
-      $(document.body).on("sticky_kit:recalc", recalc);
+      win.on("resize", recalc_and_tick);
+      $(document.body).on("sticky_kit:recalc", recalc_and_tick);
       elm.on("sticky_kit:detach", detach);
       return setTimeout(tick, 0);
     };
