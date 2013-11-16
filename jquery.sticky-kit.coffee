@@ -142,11 +142,32 @@ $.fn.stick_in_parent = (opts={}) ->
               top: ""
             }).trigger("sticky_kit:bottom")
 
-      win.on "scroll", tick
-      setTimeout tick, 0
-      $(document.body).on "sticky_kit:recalc", ->
+      recalc = ->
         recalc()
         tick()
+
+      detach = ->
+        win.off "scroll", tick
+        $(document.body).off "sticky_kit:recalc", recalc
+        elm.off "sticky_kit:detach", detach
+
+        elm.css {
+          position: ""
+          bottom: ""
+          top: ""
+        }
+
+        parent.position "position", ""
+
+        if elm.is ".is_stuck"
+          elm.insertAfter(spacer).removeClass "is_stuck"
+          spacer.remove()
+
+      win.on "scroll", tick
+      $(document.body).on "sticky_kit:recalc", recalc
+      elm.on "sticky_kit:detach", detach
+
+      setTimeout tick, 0
 
     ) $ elm
   @

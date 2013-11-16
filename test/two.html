@@ -55,10 +55,16 @@
   <script src="../jquery.sticky-kit.js"></script>
 </head>
 <body>
-<div class="fixed">hello</div>
+<div class="fixed">
+  hello
+  <button class="detach">Detach</button>
+  <button class="attach">Attach</button>
+</div>
 
 <div class="container" id="container">
-  <div class="header">The Header</div>
+  <div class="header">
+    The Header
+  </div>
 
   <div class="outer">
     <div class="left">Hello world</div>
@@ -91,7 +97,16 @@
   </div>
 </div>
 <script type="text/javascript">
-  $(".right").stick_in_parent({container: $("#container"), offset_top: 100});
+  function attach() {
+    $(".right").stick_in_parent({container: $("#container"), offset_top: 100});
+  }
+
+  $(document.body).on("click", ".detach", function(e) {
+    $(".right").trigger("sticky_kit:detach");
+  });
+
+  $(document.body).on("click", ".attach", attach);
+  attach();
 </script>
 
 </body>

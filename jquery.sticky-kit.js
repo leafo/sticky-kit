@@ -30,7 +30,7 @@
       sticky_class = "is_stuck";
     }
     _fn = function(elm, padding_bottom, parent_top, parent_height, top, height) {
-      var bottomed, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer, tick;
+      var bottomed, detach, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer, tick;
       parent = elm.parent();
       if (parent_selector != null) {
         parent = parent.closest(parent_selector);
@@ -151,12 +151,29 @@
           }
         }
       };
-      win.on("scroll", tick);
-      setTimeout(tick, 0);
-      return $(document.body).on("sticky_kit:recalc", function() {
+      recalc = function() {
         recalc();
         return tick();
-      });
+      };
+      detach = function() {
+        win.off("scroll", tick);
+        $(document.body).off("sticky_kit:recalc", recalc);
+        elm.off("sticky_kit:detach", detach);
+        elm.css({
+          position: "",
+          bottom: "",
+          top: ""
+        });
+        parent.position("position", "");
+        if (elm.is(".is_stuck")) {
+          elm.insertAfter(spacer).removeClass("is_stuck");
+          return spacer.remove();
+        }
+      };
+      win.on("scroll", tick);
+      $(document.body).on("sticky_kit:recalc", recalc);
+      elm.on("sticky_kit:detach", detach);
+      return setTimeout(tick, 0);
     };
     for (_i = 0, _len = this.length; _i < _len; _i++) {
       elm = this[_i];
