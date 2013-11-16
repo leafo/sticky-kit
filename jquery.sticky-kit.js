@@ -30,7 +30,7 @@
       sticky_class = "is_stuck";
     }
     _fn = function(elm, padding_bottom, parent_top, parent_height, top, height) {
-      var bottomed, detach, fixed, float, last_pos, offset, parent, recalc, reset_width, spacer, tick;
+      var bottomed, detach, fixed, float, last_pos, offset, parent, recalc, recalc_and_tick, reset_width, spacer, tick;
       parent = elm.parent();
       if (parent_selector != null) {
         parent = parent.closest(parent_selector);
@@ -151,13 +151,13 @@
           }
         }
       };
-      recalc = function() {
+      recalc_and_tick = function() {
         recalc();
         return tick();
       };
       detach = function() {
         win.off("scroll", tick);
-        $(document.body).off("sticky_kit:recalc", recalc);
+        $(document.body).off("sticky_kit:recalc", recalc_and_tick);
         elm.off("sticky_kit:detach", detach);
         elm.css({
           position: "",

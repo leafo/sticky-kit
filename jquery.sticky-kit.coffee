@@ -142,13 +142,13 @@ $.fn.stick_in_parent = (opts={}) ->
               top: ""
             }).trigger("sticky_kit:bottom")
 
-      recalc = ->
+      recalc_and_tick = ->
         recalc()
         tick()
 
       detach = ->
         win.off "scroll", tick
-        $(document.body).off "sticky_kit:recalc", recalc
+        $(document.body).off "sticky_kit:recalc", recalc_and_tick
         elm.off "sticky_kit:detach", detach
 
         elm.css {
