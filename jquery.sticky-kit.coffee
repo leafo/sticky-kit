@@ -14,6 +14,9 @@ $.fn.stick_in_parent = (opts={}) ->
 
   for elm in @
     ((elm, padding_bottom, parent_top, parent_height, top, height, float) ->
+      return if elm.data "sticky_kit"
+      elm.data "sticky_kit", true
+
       parent = elm.parent()
       parent = parent.closest(parent_selector) if parent_selector?
       throw "failed to find stick parent" unless parent.length
@@ -157,6 +160,7 @@ $.fn.stick_in_parent = (opts={}) ->
         win.off "scroll", tick
         $(document.body).off "sticky_kit:recalc", recalc_and_tick
         elm.off "sticky_kit:detach", detach
+        elm.removeData "sticky_kit"
 
         elm.css {
           position: ""
