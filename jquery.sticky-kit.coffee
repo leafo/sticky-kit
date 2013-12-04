@@ -43,7 +43,6 @@ $.fn.stick_in_parent = (opts={}) ->
           true
 
         top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top
-        console.log "setting top", top
 
         height = elm.outerHeight true
 
