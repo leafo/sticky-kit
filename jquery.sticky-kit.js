@@ -58,7 +58,6 @@
           width: ""
         }), spacer.detach(), true) : void 0;
         top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top;
-        console.log("setting top", top);
         height = elm.outerHeight(true);
         float = elm.css("float");
         spacer.css({
