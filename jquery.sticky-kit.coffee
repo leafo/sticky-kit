@@ -13,7 +13,7 @@ $.fn.stick_in_parent = (opts={}) ->
   sticky_class ?= "is_stuck"
 
   for elm in @
-    ((elm, padding_bottom, parent_top, parent_height, top, height, float) ->
+    ((elm, padding_bottom, parent_top, parent_height, top, height, el_float) ->
       return if elm.data "sticky_kit"
       elm.data "sticky_kit", true
 
@@ -46,13 +46,13 @@ $.fn.stick_in_parent = (opts={}) ->
 
         height = elm.outerHeight true
 
-        float = elm.css "float"
+        el_float = elm.css "float"
         spacer.css({
           width: elm.outerWidth true
           height: height
           display: elm.css "display"
           "vertical-align": elm.css "vertical-align"
-          float: float
+          float: el_float
         })
 
         if restore
@@ -88,7 +88,7 @@ $.fn.stick_in_parent = (opts={}) ->
             fixed = false
             offset = offset_top
 
-            if float == "left" || float == "right"
+            if el_float == "left" || el_float == "right"
               elm.insertAfter spacer
 
             spacer.detach()
@@ -126,7 +126,7 @@ $.fn.stick_in_parent = (opts={}) ->
 
             elm.css(css).addClass(sticky_class).after(spacer)
 
-            if float == "left" || float == "right"
+            if el_float == "left" || el_float == "right"
               spacer.append elm
 
             elm.trigger("sticky_kit:stick")
