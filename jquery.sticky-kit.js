@@ -177,6 +177,7 @@
           return spacer.remove();
         }
       };
+      win.on("touchmove", tick);
       win.on("scroll", tick);
       win.on("resize", recalc_and_tick);
       $(document.body).on("sticky_kit:recalc", recalc_and_tick);
