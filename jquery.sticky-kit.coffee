@@ -23,6 +23,7 @@ $.fn.stick_in_parent = (opts={}) ->
 
       fixed = false
       spacer = $("<div />")
+      spacer.css('position', elm.css('position'))
 
       recalc = ->
         border_top = parseInt parent.css("border-top-width"), 10
@@ -148,7 +149,7 @@ $.fn.stick_in_parent = (opts={}) ->
             elm.css({
               position: "absolute"
               bottom: padding_bottom
-              top: ""
+              top: "auto"
             }).trigger("sticky_kit:bottom")
 
       recalc_and_tick = ->
