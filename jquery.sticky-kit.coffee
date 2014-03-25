@@ -22,6 +22,7 @@ $.fn.stick_in_parent = (opts={}) ->
       throw "failed to find stick parent" unless parent.length
 
       fixed = false
+      bottomed = false
       spacer = $("<div />")
 
       recalc = ->
@@ -63,7 +64,6 @@ $.fn.stick_in_parent = (opts={}) ->
       recalc()
       return if height == parent_height
 
-      bottomed = false
       last_pos = undefined
       offset = offset_top
 
