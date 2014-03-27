@@ -22,6 +22,7 @@ $.fn.stick_in_parent = (opts={}) ->
       throw "failed to find stick parent" unless parent.length
 
       fixed = false
+      bottomed = false
       spacer = $("<div />")
       spacer.css('position', elm.css('position'))
 
@@ -35,10 +36,12 @@ $.fn.stick_in_parent = (opts={}) ->
 
         restore = if fixed
           fixed = false
+          bottomed = false
           elm.insertAfter(spacer).css {
             position: ""
             top: ""
             width: ""
+            bottom: ""
           }
           spacer.detach()
           true
@@ -62,7 +65,6 @@ $.fn.stick_in_parent = (opts={}) ->
       recalc()
       return if height == parent_height
 
-      bottomed = false
       last_pos = undefined
       offset = offset_top
 
