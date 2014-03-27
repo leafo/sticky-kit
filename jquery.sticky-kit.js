@@ -43,6 +43,7 @@
         throw "failed to find stick parent";
       }
       fixed = false;
+      bottomed = false;
       spacer = $("<div />");
       spacer.css('position', elm.css('position'));
       recalc = function() {
@@ -52,10 +53,11 @@
         padding_bottom = parseInt(parent.css("padding-bottom"), 10);
         parent_top = parent.offset().top + border_top + padding_top;
         parent_height = parent.height();
-        restore = fixed ? (fixed = false, elm.insertAfter(spacer).css({
+        restore = fixed ? (fixed = false, bottomed = false, elm.insertAfter(spacer).css({
           position: "",
           top: "",
-          width: ""
+          width: "",
+          bottom: ""
         }), spacer.detach(), true) : void 0;
         top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top;
         height = elm.outerHeight(true);
@@ -75,7 +77,6 @@
       if (height === parent_height) {
         return;
       }
-      bottomed = false;
       last_pos = void 0;
       offset = offset_top;
       tick = function() {
