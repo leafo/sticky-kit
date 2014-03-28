@@ -125,7 +125,10 @@ $.fn.stick_in_parent = (opts={}) ->
               top: offset
             }
 
-            css.width = elm.width() + "px"
+            css.width = if elm.css("box-sizing") == "border-box"
+              elm.outerWidth() + "px"
+            else
+              elm.width() + "px"
 
             elm.css(css).addClass(sticky_class).after(spacer)
 
