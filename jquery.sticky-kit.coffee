@@ -56,7 +56,7 @@ $.fn.stick_in_parent = (opts={}) ->
           height: height
           display: elm.css "display"
           "vertical-align": elm.css "vertical-align"
-          float: el_float
+          "float": el_float
         })
 
         if restore

@@ -67,7 +67,7 @@
           height: height,
           display: elm.css("display"),
           "vertical-align": elm.css("vertical-align"),
-          float: el_float
+          "float": el_float
         });
         if (restore) {
           return tick();
