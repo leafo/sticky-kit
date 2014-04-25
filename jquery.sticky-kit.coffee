@@ -37,12 +37,12 @@ $.fn.stick_in_parent = (opts={}) ->
         restore = if fixed
           fixed = false
           bottomed = false
-          elm.insertAfter(spacer).css {
+          elm.insertAfter(spacer).css({
             position: ""
             top: ""
             width: ""
             bottom: ""
-          }
+          }).removeClass(sticky_class)
           spacer.detach()
           true
 

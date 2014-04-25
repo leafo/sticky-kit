@@ -58,7 +58,7 @@
           top: "",
           width: "",
           bottom: ""
-        }), spacer.detach(), true) : void 0;
+        }).removeClass(sticky_class), spacer.detach(), true) : void 0;
         top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top;
         height = elm.outerHeight(true);
         el_float = elm.css("float");
