@@ -8,6 +8,11 @@
       border: 1px solid red;
     }
 
+    .manual_spacer {
+      background: red;
+      padding: 10px;
+    }
+
     .item, .static {
       border: 1px solid blue;
       min-width: 200px;
@@ -167,8 +172,8 @@
 
 <h1>Custom Spacer</h1>
 <div class="container one">
-  <div class="item block">
-    <iframe src="http://leafo.net" frameborder="0"></iframe>
+  <div class="manual_spacer">
+    <div class="item block use_manual"></div>
   </div>
   <div class="full static" style="margin: 10px auto; width: 400px;"></div>
 </div>
@@ -193,7 +198,13 @@
       });
     }
 
-    $(".container .item").stick_in_parent();
+    $(".container .item:not(.use_manual)").stick_in_parent();
+
+    $(".container .item.use_manual").stick_in_parent({
+      parent: ".container",
+      spacer: ".manual_spacer"
+    });
+
     $("#events_container").on("sticky_kit:stick", function(e) {
       $(e.target).html("got stick event");
     });

@@ -1,12 +1,12 @@
 ###*
-@license Sticky-kit v1.0.4 | WTFPL | Leaf Corcoran 2014 | http://leafo.net
+@license Sticky-kit v1.0.5 | WTFPL | Leaf Corcoran 2014 | http://leafo.net
 ###
 
 $ = @jQuery or window.jQuery
 
 win = $ window
 $.fn.stick_in_parent = (opts={}) ->
-  { sticky_class, inner_scrolling, parent: parent_selector, offset_top } = opts
+  { sticky_class, inner_scrolling, parent: parent_selector, offset_top, spacer: manual_spacer } = opts
   offset_top ?= 0
   parent_selector ?= undefined
   inner_scrolling ?= true
@@ -23,7 +23,11 @@ $.fn.stick_in_parent = (opts={}) ->
 
       fixed = false
       bottomed = false
-      spacer = $("<div />")
+      spacer = if manual_spacer?
+        elm.closest manual_spacer
+      else
+        $("<div />")
+
       spacer.css('position', elm.css('position'))
 
       recalc = ->
@@ -34,17 +38,22 @@ $.fn.stick_in_parent = (opts={}) ->
         parent_top = parent.offset().top + border_top + padding_top
         parent_height = parent.height()
 
-        restore = if fixed
+        if fixed
           fixed = false
           bottomed = false
-          elm.insertAfter(spacer).css({
+
+          unless manual_spacer?
+            elm.insertAfter(spacer)
+            spacer.detach()
+
+          elm.css({
             position: ""
             top: ""
             width: ""
             bottom: ""
           }).removeClass(sticky_class)
-          spacer.detach()
-          true
+
+          restore = true
 
         top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top
 
@@ -91,10 +100,12 @@ $.fn.stick_in_parent = (opts={}) ->
             fixed = false
             offset = offset_top
 
-            if el_float == "left" || el_float == "right"
-              elm.insertAfter spacer
+            unless manual_spacer?
+              if el_float == "left" || el_float == "right"
+                elm.insertAfter spacer
 
-            spacer.detach()
+              spacer.detach()
+
             css = {
               position: ""
               width: ""
@@ -130,10 +141,13 @@ $.fn.stick_in_parent = (opts={}) ->
             else
               elm.width() + "px"
 
-            elm.css(css).addClass(sticky_class).after(spacer)
+            elm.css(css).addClass(sticky_class)
 
-            if el_float == "left" || el_float == "right"
-              spacer.append elm
+            unless manual_spacer?
+              elm.after(spacer)
+
+              if el_float == "left" || el_float == "right"
+                spacer.append elm
 
             elm.trigger("sticky_kit:stick")
 
@@ -176,8 +190,11 @@ $.fn.stick_in_parent = (opts={}) ->
         parent.position "position", ""
 
         if fixed
-          elm.insertAfter(spacer).removeClass sticky_class
-          spacer.remove()
+          unless manual_spacer?
+            elm.insertAfter spacer
+            spacer.remove()
+
+          elm.removeClass sticky_class
 
       win.on "touchmove", tick
       win.on "scroll", tick
