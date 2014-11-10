@@ -8,12 +8,7 @@
       border: 1px solid red;
     }
 
-    .item {
-      display: inline-block;
-      zoom: 1;
-      *display: inline;
-
-      vertical-align: top;
+    .item, .static {
       border: 1px solid blue;
       min-width: 200px;
       min-height: 200px;
@@ -21,6 +16,13 @@
       box-sizing: border-box;
       box-shadow: inset 0 30px 20px -20px rgba(0,0,0,0.2),
         inset 0 -30px 20px -20px rgba(0,0,0,0.2);
+    }
+
+    .item {
+      display: inline-block;
+      zoom: 1;
+      *display: inline;
+      vertical-align: top;
     }
 
     .item.float {
@@ -31,6 +33,11 @@
 
     .item.float.right {
       float: right;
+    }
+
+    .item.block {
+      display: block;
+      border: 1px solid rgb(0,255,255);
     }
 
     .clearfix {
@@ -155,6 +162,15 @@
 <div class="container one">
   <div class="item full"></div>
   <div class="item full"></div>
+</div>
+
+
+<h1>Custom Spacer</h1>
+<div class="container one">
+  <div class="item block">
+    <iframe src="http://leafo.net" frameborder="0"></iframe>
+  </div>
+  <div class="full static" style="margin: 10px auto; width: 400px;"></div>
 </div>
 
 <div class="full"></div>
