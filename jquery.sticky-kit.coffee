@@ -191,7 +191,8 @@ $.fn.stick_in_parent = (opts={}) ->
 
         if fixed
           unless manual_spacer?
-            elm.insertAfter spacer
+            if el_float == "left" || el_float == "right"
+              elm.insertAfter spacer
             spacer.remove()
 
           elm.removeClass sticky_class
