@@ -6,11 +6,21 @@ $ = @jQuery or window.jQuery
 
 win = $ window
 $.fn.stick_in_parent = (opts={}) ->
-  { sticky_class, inner_scrolling, parent: parent_selector, offset_top, spacer: manual_spacer } = opts
+  {
+    sticky_class
+    inner_scrolling
+    parent: parent_selector
+    offset_top
+    spacer: manual_spacer
+    bottoming: enable_bottoming
+  } = opts
+
   offset_top ?= 0
   parent_selector ?= undefined
   inner_scrolling ?= true
   sticky_class ?= "is_stuck"
+
+  enable_bottoming = true unless enable_bottoming?
 
   for elm in @
     ((elm, padding_bottom, parent_top, parent_height, top, height, el_float) ->
@@ -84,16 +94,17 @@ $.fn.stick_in_parent = (opts={}) ->
         last_pos = scroll
 
         if fixed
-          will_bottom = scroll + height + offset > parent_height + parent_top
+          if enable_bottoming
+            will_bottom = scroll + height + offset > parent_height + parent_top
 
-          # unbottom
-          if bottomed && !will_bottom
-            bottomed = false
-            elm.css({
-              position: "fixed"
-              bottom: ""
-              top: offset
-            }).trigger("sticky_kit:unbottom")
+            # unbottom
+            if bottomed && !will_bottom
+              bottomed = false
+              elm.css({
+                position: "fixed"
+                bottom: ""
+                top: offset
+              }).trigger("sticky_kit:unbottom")
 
           # unfixing
           if scroll < top
@@ -153,7 +164,7 @@ $.fn.stick_in_parent = (opts={}) ->
 
         # this is down here because we can fix and bottom in same step when
         # scrolling huge
-        if fixed
+        if fixed && enable_bottoming
           will_bottom ?= scroll + height + offset > parent_height + parent_top
 
           # bottomed

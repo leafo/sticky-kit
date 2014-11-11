@@ -12,11 +12,11 @@
   win = $(window);
 
   $.fn.stick_in_parent = function(opts) {
-    var elm, inner_scrolling, manual_spacer, offset_top, parent_selector, sticky_class, _fn, _i, _len;
+    var elm, enable_bottoming, inner_scrolling, manual_spacer, offset_top, parent_selector, sticky_class, _fn, _i, _len;
     if (opts == null) {
       opts = {};
     }
-    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling, parent_selector = opts.parent, offset_top = opts.offset_top, manual_spacer = opts.spacer;
+    sticky_class = opts.sticky_class, inner_scrolling = opts.inner_scrolling, parent_selector = opts.parent, offset_top = opts.offset_top, manual_spacer = opts.spacer, enable_bottoming = opts.bottoming;
     if (offset_top == null) {
       offset_top = 0;
     }
@@ -28,6 +28,9 @@
     }
     if (sticky_class == null) {
       sticky_class = "is_stuck";
+    }
+    if (enable_bottoming == null) {
+      enable_bottoming = true;
     }
     _fn = function(elm, padding_bottom, parent_top, parent_height, top, height, el_float) {
       var bottomed, detach, fixed, last_pos, offset, parent, recalc, recalc_and_tick, spacer, tick;
@@ -100,14 +103,16 @@
         }
         last_pos = scroll;
         if (fixed) {
-          will_bottom = scroll + height + offset > parent_height + parent_top;
-          if (bottomed && !will_bottom) {
-            bottomed = false;
-            elm.css({
-              position: "fixed",
-              bottom: "",
-              top: offset
-            }).trigger("sticky_kit:unbottom");
+          if (enable_bottoming) {
+            will_bottom = scroll + height + offset > parent_height + parent_top;
+            if (bottomed && !will_bottom) {
+              bottomed = false;
+              elm.css({
+                position: "fixed",
+                bottom: "",
+                top: offset
+              }).trigger("sticky_kit:unbottom");
+            }
           }
           if (scroll < top) {
             fixed = false;
@@ -158,7 +163,7 @@
             elm.trigger("sticky_kit:stick");
           }
         }
-        if (fixed) {
+        if (fixed && enable_bottoming) {
           if (will_bottom == null) {
             will_bottom = scroll + height + offset > parent_height + parent_top;
           }
