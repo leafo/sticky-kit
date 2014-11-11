@@ -81,6 +81,8 @@
 <body>
 
 <div class="buttons">
+  <button class="attach">Attach</button>
+  <button class="detach">Detach</button>
   <button class="recalc">Recalc</button>
 </div>
 
@@ -214,12 +216,16 @@
       });
     }
 
-    $(".container .item:not(.use_manual)").stick_in_parent();
+    function attach() {
+      $(".container .item:not(.use_manual)").stick_in_parent();
 
-    $(".container .item.use_manual").stick_in_parent({
-      parent: ".container",
-      spacer: ".manual_spacer"
-    });
+      $(".container .item.use_manual").stick_in_parent({
+        parent: ".container",
+        spacer: ".manual_spacer"
+      });
+    }
+
+    attach();
 
     $("#events_container").on("sticky_kit:stick", function(e) {
       $(e.target).html("got stick event");
@@ -237,11 +243,19 @@
       $(e.target).html("got unbottom event");
     });
 
-    $(document.body).on("click", ".recalc", function() {
-      console.log("Triggering recalc");
-      $(document.body).trigger("sticky_kit:recalc")
-    });
-
+    $(document.body)
+      .on("click", ".recalc", function() {
+        console.log("Triggering recalc");
+        $(document.body).trigger("sticky_kit:recalc")
+      })
+      .on("click", ".detach", function() {
+        console.log("Triggering detach");
+        $(".container .item").trigger("sticky_kit:detach");
+      })
+      .on("click", ".attach", function() {
+        console.log("Triggering attach");
+        attach();
+      });
 
     $(document.body).on("click", ".grow_element", function(e) {
       var elm = $($(e.currentTarget).data("target"));
