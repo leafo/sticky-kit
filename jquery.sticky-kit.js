@@ -44,8 +44,10 @@
       }
       fixed = false;
       bottomed = false;
-      spacer = manual_spacer != null ? elm.closest(manual_spacer) : $("<div />");
-      spacer.css('position', elm.css('position'));
+      spacer = manual_spacer != null ? manual_spacer && elm.closest(manual_spacer) : $("<div />");
+      if (spacer) {
+        spacer.css('position', elm.css('position'));
+      }
       recalc = function() {
         var border_top, padding_top, restore;
         border_top = parseInt(parent.css("border-top-width"), 10);
@@ -71,13 +73,15 @@
         top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top;
         height = elm.outerHeight(true);
         el_float = elm.css("float");
-        spacer.css({
-          width: elm.outerWidth(true),
-          height: height,
-          display: elm.css("display"),
-          "vertical-align": elm.css("vertical-align"),
-          "float": el_float
-        });
+        if (spacer) {
+          spacer.css({
+            width: elm.outerWidth(true),
+            height: height,
+            display: elm.css("display"),
+            "vertical-align": elm.css("vertical-align"),
+            "float": el_float
+          });
+        }
         if (restore) {
           return tick();
         }

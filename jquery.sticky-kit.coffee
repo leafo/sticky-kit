@@ -24,11 +24,11 @@ $.fn.stick_in_parent = (opts={}) ->
       fixed = false
       bottomed = false
       spacer = if manual_spacer?
-        elm.closest manual_spacer
+        manual_spacer && elm.closest manual_spacer
       else
         $("<div />")
 
-      spacer.css('position', elm.css('position'))
+      spacer.css('position', elm.css('position')) if spacer
 
       recalc = ->
         border_top = parseInt parent.css("border-top-width"), 10
@@ -66,7 +66,7 @@ $.fn.stick_in_parent = (opts={}) ->
           display: elm.css "display"
           "vertical-align": elm.css "vertical-align"
           "float": el_float
-        })
+        }) if spacer
 
         if restore
           tick()
