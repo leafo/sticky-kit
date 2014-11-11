@@ -178,7 +178,9 @@
         return tick();
       };
       detach = function() {
+        win.off("touchmove", tick);
         win.off("scroll", tick);
+        win.off("resize", recalc_and_tick);
         $(document.body).off("sticky_kit:recalc", recalc_and_tick);
         elm.off("sticky_kit:detach", detach);
         elm.removeData("sticky_kit");
