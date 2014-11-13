@@ -149,8 +149,8 @@ $("#sticky_item").stick_in_parent()
 $("#sticky_item").stick_in_parent(options)
 ```
 
-`options` is an optional hash of options to configure how Sticky Kit works. The
-following options are accepted:
+You can pass a hash of options to configure how Sticky Kit works. The following
+options are accepted, each one is optional:
 
 * `parent` -- The element will be the parent of the sticky item. The
   dimensions of the parent control when the sticky element bottoms out. Defaults
@@ -162,6 +162,14 @@ following options are accepted:
   have become stuck. Defaults to `"is_stuck"`.
 * `offset_top` -- offsets the initial sticking position by of number of pixels,
   can be either negative or positive
+* `spacer` -- either a selector to use for the spacer element, or `false` to
+  disable the spacer. The selector is passed to
+  [`closest`](http://api.jquery.com/closest/), so you should nest the sticky
+  element within the spacer. Defaults to Stiky Kit creating its own spacer.
+* `bottoming` -- Boolean to control whether elements bottom out. Defaults to `true`
+* `recalc_every` -- Integeger specifying that a recalc should automatically
+  take place between that many ticks. A tick takes place on every scroll event.
+  Defaults to never calling recalc on a tick.
 
 ### Events
 
@@ -193,13 +201,13 @@ Sticky Kit listens to one event on `document.body`.
   recalculated. More information below.
 
 
-If you want to remove sticky kit from an element after applying it you can send
-that element a `sticky_kit:detach` event.
-
 Sticky Kit also listens to an event on the sticky elements:
 
 * `sticky_kit:detach` -- remove sticky kit and restore element to original
   position
+
+If you want to remove sticky kit from an element after applying it you can send
+that element a `sticky_kit:detach` event.
 
 For example:
 
@@ -213,7 +221,8 @@ If you're changing the markup of your page on the fly by removing, adding or
 resizing elements then you most likely need to tell Sticky Kit to recalculate
 the sticky elements to guarantee they're positioned correctly.
 
-You can cause a recalculation to happen by triggering an event on `document.body`:
+You can manually cause a recalculation to happen by triggering an event on
+`document.body`:
 
 ```js
 $(document.body).trigger("sticky_kit:recalc")
@@ -223,11 +232,32 @@ Typically you only need to trigger a recalculation if you are changing the
 positions/sizes of elements above the sticky element, adjacent to it, or the
 sticky element itself.
 
+Sticky kit has two types of internal actions, a `recalc` and a `tick`. A
+recalculation happens very rarely, by default only on start up and on page
+resize. It caches the sizes and positioning CSS of all the elements that it
+needs to interact with.
+
+A `tick` happens on every scroll event. It's a light weight function checks the
+cached values and updates state accordingly. This is done to keep the least
+amount of code running on each scroll event to help prevent jank and give more
+time to any other scroll event listeners you might have.
+
+Instead of manually calling `sticky_kit:recalc` you can use the `recalc_every`
+option described above to periodically do a recalculation between ticks.
+Setting it to 1 will cause a recalculation to happen on every scroll event,
+preventing the state from ever being out of date.
+
+```js
+$("#sticky_item").stick_in_parent({recalc_every: 1})
+```
+
 ### About Columns
 
 If you're familiar with HTML and CSS then you probably know there are a handful
 of different ways to make columns. Sticky kit works automatically with floated
-columns or `inline-block` columns.
+columns, `inline-block` columns, or absolutely positioned elements. (Non column
+elements like toolbars work great as well, for example the toolbar on this
+site.)
 
 ### Browser Support
 
