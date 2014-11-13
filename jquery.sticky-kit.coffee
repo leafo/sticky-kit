@@ -1,5 +1,5 @@
 ###*
-@license Sticky-kit v1.0.5 | WTFPL | Leaf Corcoran 2014 | http://leafo.net
+@license Sticky-kit v1.1.0 | WTFPL | Leaf Corcoran 2014 | http://leafo.net
 ###
 
 $ = @jQuery or window.jQuery
