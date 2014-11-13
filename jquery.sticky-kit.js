@@ -53,7 +53,6 @@
       }
       recalc = function() {
         var border_top, padding_top, restore;
-        console.log("recalc");
         border_top = parseInt(parent.css("border-top-width"), 10);
         padding_top = parseInt(parent.css("padding-top"), 10);
         padding_bottom = parseInt(parent.css("padding-bottom"), 10);
