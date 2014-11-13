@@ -9,6 +9,7 @@ $.fn.stick_in_parent = (opts={}) ->
   {
     sticky_class
     inner_scrolling
+    recalc_every
     parent: parent_selector
     offset_top
     spacer: manual_spacer
@@ -87,7 +88,15 @@ $.fn.stick_in_parent = (opts={}) ->
       last_pos = undefined
       offset = offset_top
 
+      recalc_counter = recalc_every
+
       tick = ->
+        if recalc_counter?
+          recalc_counter -= 1
+          if recalc_counter <= 0
+            recalc_counter = recalc_every
+            recalc()
+
         scroll = win.scrollTop()
         if last_pos?
           delta = scroll - last_pos
