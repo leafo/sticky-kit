@@ -24,7 +24,7 @@ $.fn.stick_in_parent = (opts={}) ->
   enable_bottoming = true unless enable_bottoming?
 
   for elm in @
-    ((elm, padding_bottom, parent_top, parent_height, top, height, el_float) ->
+    ((elm, padding_bottom, parent_top, parent_height, top, height, el_float, detached) ->
       return if elm.data "sticky_kit"
       elm.data "sticky_kit", true
 
@@ -42,6 +42,7 @@ $.fn.stick_in_parent = (opts={}) ->
       spacer.css('position', elm.css('position')) if spacer
 
       recalc = ->
+        return if detached
         border_top = parseInt parent.css("border-top-width"), 10
         padding_top = parseInt parent.css("padding-top"), 10
         padding_bottom = parseInt parent.css("padding-bottom"), 10
@@ -91,6 +92,7 @@ $.fn.stick_in_parent = (opts={}) ->
       recalc_counter = recalc_every
 
       tick = ->
+        return if detached
         if recalc_counter?
           recalc_counter -= 1
           if recalc_counter <= 0
@@ -196,6 +198,7 @@ $.fn.stick_in_parent = (opts={}) ->
         tick()
 
       detach = ->
+        detached = true
         win.off "touchmove", tick
         win.off "scroll", tick
         win.off "resize", recalc_and_tick

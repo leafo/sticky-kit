@@ -32,7 +32,7 @@
     if (enable_bottoming == null) {
       enable_bottoming = true;
     }
-    _fn = function(elm, padding_bottom, parent_top, parent_height, top, height, el_float) {
+    _fn = function(elm, padding_bottom, parent_top, parent_height, top, height, el_float, detached) {
       var bottomed, detach, fixed, last_pos, offset, parent, recalc, recalc_and_tick, recalc_counter, spacer, tick;
       if (elm.data("sticky_kit")) {
         return;
@@ -53,6 +53,9 @@
       }
       recalc = function() {
         var border_top, padding_top, restore;
+        if (detached) {
+          return;
+        }
         border_top = parseInt(parent.css("border-top-width"), 10);
         padding_top = parseInt(parent.css("padding-top"), 10);
         padding_bottom = parseInt(parent.css("padding-bottom"), 10);
@@ -98,6 +101,9 @@
       recalc_counter = recalc_every;
       tick = function() {
         var css, delta, scroll, will_bottom, win_height;
+        if (detached) {
+          return;
+        }
         if (recalc_counter != null) {
           recalc_counter -= 1;
           if (recalc_counter <= 0) {
@@ -195,6 +201,7 @@
         return tick();
       };
       detach = function() {
+        detached = true;
         win.off("touchmove", tick);
         win.off("scroll", tick);
         win.off("resize", recalc_and_tick);
