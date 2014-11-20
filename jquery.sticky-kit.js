@@ -205,7 +205,7 @@
           position: "",
           bottom: "",
           top: "",
-          height: ""
+          width: ""
         });
         parent.position("position", "");
         if (fixed) {

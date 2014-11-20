@@ -208,7 +208,7 @@ $.fn.stick_in_parent = (opts={}) ->
           position: ""
           bottom: ""
           top: ""
-          height: ""
+          width: ""
         }
 
         parent.position "position", ""
