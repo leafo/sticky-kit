@@ -204,7 +204,8 @@
         elm.css({
           position: "",
           bottom: "",
-          top: ""
+          top: "",
+          height: ""
         });
         parent.position("position", "");
         if (fixed) {
