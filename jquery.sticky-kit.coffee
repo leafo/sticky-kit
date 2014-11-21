@@ -138,7 +138,7 @@ $.fn.stick_in_parent = (opts={}) ->
           # updated offset
           if inner_scrolling
             win_height = win.height()
-            if height > win_height # bigger than viewport
+            if height + offset_top > win_height # bigger than viewport
               unless bottomed
                 offset -= delta
                 offset = Math.max win_height - height, offset
