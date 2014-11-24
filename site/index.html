@@ -41,7 +41,7 @@ no more worrying if a sticky element will accidentally cover your footer.
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$("#sidebar").stick_in_parent()
+$("#sidebar").stick_in_parent();
 ```
 ]]}
 </div>
@@ -68,7 +68,7 @@ Have a lot of sticky columns, or different sticky portions of the page? Call
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$(".sticky_column").stick_in_parent()
+$(".sticky_column").stick_in_parent();
 ```
 ]]}
 </div>
@@ -93,7 +93,7 @@ don't take up the entire height of their parent.
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$("#sidebar, #main_column").stick_in_parent()
+$("#sidebar, #main_column").stick_in_parent();
 ```
 ]]}
 </div>
@@ -119,7 +119,7 @@ sticky element be too tall or the user's resolution too small.
 <button>Scroll it!</button>
 $markdown{[[
 ```js
-$("#sidebar").stick_in_parent()
+$("#sidebar").stick_in_parent();
 ```
 ]]}
 </div>
@@ -144,9 +144,9 @@ To install include `jquery.sticky-kit.js` after including jQuery.
 Usage:
 
 ```js
-$("#sticky_item").stick_in_parent()
+$("#sticky_item").stick_in_parent();
 // or
-$("#sticky_item").stick_in_parent(options)
+$("#sticky_item").stick_in_parent(options);
 ```
 
 You can pass a hash of options to configure how Sticky Kit works. The following
@@ -225,7 +225,7 @@ You can manually cause a recalculation to happen by triggering an event on
 `document.body`:
 
 ```js
-$(document.body).trigger("sticky_kit:recalc")
+$(document.body).trigger("sticky_kit:recalc");
 ```
 
 Typically you only need to trigger a recalculation if you are changing the
@@ -248,7 +248,7 @@ Setting it to 1 will cause a recalculation to happen on every scroll event,
 preventing the state from ever being out of date.
 
 ```js
-$("#sticky_item").stick_in_parent({recalc_every: 1})
+$("#sticky_item").stick_in_parent({recalc_every: 1});
 ```
 
 ### About Columns
