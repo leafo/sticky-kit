@@ -67,7 +67,7 @@ $.fn.stick_in_parent = (opts={}) ->
 
           restore = true
 
-        top = elm.offset().top - parseInt(elm.css("margin-top"), 10) - offset_top
+        top = elm.offset().top - (parseInt(elm.css("margin-top"), 10) or 0) - offset_top
 
         height = elm.outerHeight true
 
