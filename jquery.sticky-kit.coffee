@@ -1,5 +1,5 @@
 ###*
-@license Sticky-kit v1.1.1 | WTFPL | Leaf Corcoran 2014 | http://leafo.net
+@license Sticky-kit v1.1.1 | WTFPL | Leaf Corcoran 2015 | http://leafo.net
 ###
 
 $ = @jQuery or window.jQuery
@@ -21,12 +21,16 @@ $.fn.stick_in_parent = (opts={}) ->
   inner_scrolling ?= true
   sticky_class ?= "is_stuck"
 
+  doc = $(document)
+
   enable_bottoming = true unless enable_bottoming?
 
   for elm in @
     ((elm, padding_bottom, parent_top, parent_height, top, height, el_float, detached) ->
       return if elm.data "sticky_kit"
       elm.data "sticky_kit", true
+
+      last_scroll_height = doc.height()
 
       parent = elm.parent()
       parent = parent.closest(parent_selector) if parent_selector?
@@ -43,6 +47,8 @@ $.fn.stick_in_parent = (opts={}) ->
 
       recalc = ->
         return if detached
+        last_scroll_height = doc.height()
+
         border_top = parseInt parent.css("border-top-width"), 10
         padding_top = parseInt parent.css("padding-top"), 10
         padding_bottom = parseInt parent.css("padding-bottom"), 10
@@ -93,11 +99,18 @@ $.fn.stick_in_parent = (opts={}) ->
 
       tick = ->
         return if detached
+        recalced = false
+
         if recalc_counter?
           recalc_counter -= 1
           if recalc_counter <= 0
             recalc_counter = recalc_every
             recalc()
+            recalced = true
+
+        if !recalced && doc.height() != last_scroll_height
+          recalc()
+          recalced = true
 
         scroll = win.scrollTop()
         if last_pos?
