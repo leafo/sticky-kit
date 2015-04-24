@@ -3,81 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>sticky kit test</title>
-  <style type="text/css">
-    .container {
-      border: 1px solid red;
-    }
-
-    .manual_spacer {
-      background: red;
-      padding: 10px;
-    }
-
-    .item, .static {
-      border: 1px solid blue;
-      min-width: 200px;
-      min-height: 200px;
-      background-image: url("tile.png");
-      box-sizing: border-box;
-      box-shadow: inset 0 30px 20px -20px rgba(0,0,0,0.2),
-        inset 0 -30px 20px -20px rgba(0,0,0,0.2);
-    }
-
-    .item {
-      display: inline-block;
-      zoom: 1;
-      *display: inline;
-      vertical-align: top;
-    }
-
-    .item.float {
-      display: block;
-      border: 1px solid rgb(255,255,0);
-      float: left;
-    }
-
-    .item.float.right {
-      float: right;
-    }
-
-    .item.block {
-      display: block;
-      border: 1px solid rgb(0,255,255);
-    }
-
-    .clearfix {
-      overflow: hidden;
-      display: block;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .borders {
-      padding: 40px;
-      border: 60px solid green;
-      margin: 80px;
-    }
-
-    .item.abs {
-    }
-
-    .is_stuck {
-      box-shadow: inset 0 30px 20px -20px rgba(0,0,0,0.2),
-        inset 0 -30px 20px -20px rgba(0,0,0,0.2), 0 0 10px red;
-    }
-
-    .buttons {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0, 0.2);
-      padding: 10px;
-      z-index: 100;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css" />
 
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script src="../jquery.sticky-kit.js"></script>
@@ -98,6 +24,7 @@
 </div>
 
 <button class="grow_element" data-target="#grow_1">Grow</button>
+<button class="scramble_element" data-target="#grow_1">Scramble no event</button>
 
 <h1>Variable</h1>
 <div class="container one">
@@ -258,14 +185,20 @@
       .on("click", ".attach", function() {
         console.log("Triggering attach");
         attach();
+      })
+      .on("click", ".grow_element", function(e) {
+        var elm = $($(e.currentTarget).data("target"));
+        elm.animate({height: elm.height() * 2}, function() {
+          console.log("triggering recalc...");
+          $(document.body).trigger("sticky_kit:recalc")
+        });
+      })
+      .on("click", ".scramble_element", function(e) {
+        var elm = $($(e.currentTarget).data("target"));
+        var new_height = Math.floor(win.height() * (1 + Math.random()));
+        console.log("setting new height", new_height);
+        elm.css({height: new_height + "px"});
       });
-
-    $(document.body).on("click", ".grow_element", function(e) {
-      var elm = $($(e.currentTarget).data("target"));
-      elm.animate({height: elm.height() * 2}, function() {
-        $(document.body).trigger("sticky_kit:recalc")
-      });
-    });
 
   })();
 </script>
