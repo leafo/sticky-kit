@@ -215,6 +215,34 @@ For example:
 $("#sticky_item").trigger("sticky_kit:detach");
 ```
 
+### Scrolling Performance
+
+StickyKit takes scrolling performance very seriously. It's built from the
+ground up to let you have sticky elements without incurring scroll lag or jank.
+
+Probably the biggest cause of scrolling lag is `onscroll` handlers that do too much
+work, trigger page reflows, etc. StickyKit avoids this by having a very light
+scroll handler that operates on cached values.
+
+If you notice that your sticky element is acting strange, like it pops to the
+bottom of the page, or jumps around, then your cached value are most likely
+outdated.  Luckily it's easy to fix, read *Recalculating Sticky Elements*
+below.
+
+Sticky Kit has two internal callbacks:
+
+* `recalc` -- Updates the cached sizes of the elements it checks
+* `tick` -- Checks and updates if necessary the sticky state from the cached values
+
+A `tick` happens on every scroll event. It's designed to be as fast as possible.
+
+A `recalc` happens whenever the cached values need to be updated. It's
+(comparatively) slower, so you don't want to run this on every scroll event. A
+`recalc` can happen automatically in the following cases: Sticky kit is first
+initialized, on the following tick after the height of the document changes.
+
+You can also manually trigger a `recalc` by sending an event, see below.
+
 ### Recalculating Sticky Elements
 
 If you're changing the markup of your page on the fly by removing, adding or
@@ -232,15 +260,6 @@ Typically you only need to trigger a recalculation if you are changing the
 positions/sizes of elements above the sticky element, adjacent to it, or the
 sticky element itself.
 
-Sticky kit has two types of internal actions, a `recalc` and a `tick`. A
-recalculation happens very rarely, by default only on start up and on page
-resize. It caches the sizes and positioning CSS of all the elements that it
-needs to interact with.
-
-A `tick` happens on every scroll event. It's a light weight function checks the
-cached values and updates state accordingly. This is done to keep the least
-amount of code running on each scroll event to help prevent jank and give more
-time to any other scroll event listeners you might have.
 
 Instead of manually calling `sticky_kit:recalc` you can use the `recalc_every`
 option described above to periodically do a recalculation between ticks.
