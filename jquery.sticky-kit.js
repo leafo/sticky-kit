@@ -12,7 +12,7 @@
   win = $(window);
 
   $.fn.stick_in_parent = function(opts) {
-    var doc, elm, enable_bottoming, fn, i, inner_scrolling, len, manual_spacer, offset_top, parent_selector, recalc_every, sticky_class;
+    var doc, elm, enable_bottoming, fn, i, inner_scrolling, len, manual_spacer, offset_top, outer_width, parent_selector, recalc_every, sticky_class;
     if (opts == null) {
       opts = {};
     }
@@ -33,6 +33,20 @@
     if (enable_bottoming == null) {
       enable_bottoming = true;
     }
+    outer_width = function(el) {
+      var _el, computed, w;
+      if (window.getComputedStyle) {
+        _el = el[0];
+        computed = window.getComputedStyle(el[0]);
+        w = parseFloat(computed.getPropertyValue("width")) + parseFloat(computed.getPropertyValue("margin-left")) + parseFloat(computed.getPropertyValue("margin-right"));
+        if (computed.getPropertyValue("box-sizing") !== "border-box") {
+          w += parseFloat(computed.getPropertyValue("border-left-width")) + parseFloat(computed.getPropertyValue("border-right-width")) + parseFloat(computed.getPropertyValue("padding-left")) + parseFloat(computed.getPropertyValue("padding-right"));
+        }
+        return w;
+      } else {
+        return el.outerWidth(true);
+      }
+    };
     fn = function(elm, padding_bottom, parent_top, parent_height, top, height, el_float, detached) {
       var bottomed, detach, fixed, last_pos, last_scroll_height, offset, parent, recalc, recalc_and_tick, recalc_counter, spacer, tick;
       if (elm.data("sticky_kit")) {
@@ -84,7 +98,7 @@
         el_float = elm.css("float");
         if (spacer) {
           spacer.css({
-            width: elm.outerWidth(true),
+            width: outer_width(elm),
             height: height,
             display: elm.css("display"),
             "vertical-align": elm.css("vertical-align"),
