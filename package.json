@@ -1,0 +1,22 @@
+{
+  "name": "sticky-kit",
+  "version": "1.1.2",
+  "description": "A jQuery plugin for creating smart sticky elements",
+  "main": "sticky-kit.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leafo/sticky-kit.git"
+  },
+  "author": "leafo <leafot@gmail.com>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/leafo/sticky-kit/issues"
+  },
+  "homepage": "https://github.com/leafo/sticky-kit#readme"
+}

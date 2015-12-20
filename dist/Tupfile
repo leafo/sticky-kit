@@ -1,0 +1,1 @@
+: ../sticky-kit.coffee |> coffee -p -c %f > %o |> %B.js
