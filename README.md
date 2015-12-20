@@ -21,7 +21,7 @@ $ bower install sticky-kit --save
 
 ## Copying
 
-Include `sticky-kit.js` after you've included jQuer on the page.
+Include `sticky-kit.js` after you've included jQuery on the page.
 
 * [sticky-kit.min.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/sticky-kit.min.js)
 * [sticky-kit.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/sticky-kit.js)
