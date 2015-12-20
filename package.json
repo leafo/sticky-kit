@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/leafo/sticky-kit/issues"
   },
-  "homepage": "https://github.com/leafo/sticky-kit#readme"
+  "homepage": "https://github.com/leafo/sticky-kit#readme",
+	"keywords": [
+		"jquery",
+		"jquery-plugin",
+		"sticky"
+	]
 }
