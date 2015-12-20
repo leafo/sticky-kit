@@ -6,18 +6,25 @@ See the homepage for directions and examples: <http://leafo.net/sticky-kit/>
 
 # Installation
 
-## Copying
+```bash
+$ npm install sticky-kit --save
+```
 
-Copy [jquery.sticky-kit.min.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/jquery.sticky-kit.min.js) to your project, and include it with a `script` tag. jQuery is a dependency, it must be loaded before the Sticky-kit.
-
-You can download the non-minified version here: [jquery.sticky-kit.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/jquery.sticky-kit.js)
-
+Find `sticky-kit.js` in the `dist/` directory. Make sure to include it after
+jQuery.
 
 ## Bower
 
 ```bash
 $ bower install sticky-kit --save
 ```
+
+## Copying
+
+Include `sticky-kit.js` after you've included jQuer on the page.
+
+* [sticky-kit.min.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/sticky-kit.min.js)
+* [sticky-kit.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/sticky-kit.js)
 
 # Documentation 
 
