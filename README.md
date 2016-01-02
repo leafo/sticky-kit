@@ -23,8 +23,8 @@ $ bower install sticky-kit --save
 
 Include `sticky-kit.js` after you've included jQuery on the page.
 
-* [sticky-kit.min.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/sticky-kit.min.js)
-* [sticky-kit.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/sticky-kit.js)
+* [sticky-kit.min.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/dist/sticky-kit.min.js)
+* [sticky-kit.js](https://raw.githubusercontent.com/leafo/sticky-kit/master/dist/sticky-kit.js)
 
 # Documentation 
 
