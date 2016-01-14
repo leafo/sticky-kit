@@ -9,7 +9,7 @@ exec = (cmd) ->
 
 sitegen.create =>
   @title = "Sticky-Kit | jQuery plugin for sticky elements"
-  @version = "1.1.2"
+  @version = exec("git tag | tail -1")\lower!
 
   @full_size = exec("du -bh www/src/sticky-kit.js | cut -f 1")\lower!
   @compressed_size = exec("du -bh www/src/sticky-kit.min.js | cut -f 1")\lower!
