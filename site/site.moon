@@ -7,20 +7,20 @@ exec = (cmd) ->
   with f\read "*a"
     f\close!
 
-site = sitegen.create_site =>
+sitegen.create =>
   @title = "Sticky-Kit | jQuery plugin for sticky elements"
   @version = "1.1.2"
 
-  @full_size = exec("du -bh www/src/jquery.sticky-kit.js | cut -f 1")\lower!
-  @compressed_size = exec("du -bh www/src/jquery.sticky-kit.min.js | cut -f 1")\lower!
+  @full_size = exec("du -bh www/src/sticky-kit.js | cut -f 1")\lower!
+  @compressed_size = exec("du -bh www/src/sticky-kit.min.js | cut -f 1")\lower!
 
   deploy_to "leaf@leafo.net", "www/sticky-kit"
 
-  scssphp = tools.system_command "pscss < %s > %s", "css"
+  scss = tools.system_command "sassc -I scss < %s > %s", "css"
   coffeescript = tools.system_command "coffee -c -s < %s > %s", "js"
 
-  build scssphp, "main.scss"
-  build scssphp, "example.scss"
+  build scss, "main.scss"
+  build scss, "example.scss"
 
   build coffeescript, "main.coffee"
   build coffeescript, "example.coffee"
@@ -28,5 +28,3 @@ site = sitegen.create_site =>
   add "index.html"
   add "examples/1.html", "examples/2.html", "examples/3.html",
     "examples/4.html", template: "example"
-
-site\write!
