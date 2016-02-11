@@ -14,7 +14,7 @@
     "url": "git+https://github.com/leafo/sticky-kit.git"
   },
   "author": "leafo <leafot@gmail.com>",
-  "license": "WTFPL",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/leafo/sticky-kit/issues"
   },

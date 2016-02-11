@@ -32,4 +32,4 @@ Refer to the homepage: http://leafo.net/sticky-kit/#reference
 
 # License
 
-WTFPL
+MIT
