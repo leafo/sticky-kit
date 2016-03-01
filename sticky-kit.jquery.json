@@ -23,8 +23,7 @@
 
   "licenses": [
     {
-      "type": "WTFPL",
-      "url": "http://www.wtfpl.net/"
+      "type": "MIT"
     }
   ],
 
