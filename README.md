@@ -4,6 +4,8 @@ A jQuery plugin for making smart sticky elements.
 
 See the homepage for directions and examples: <http://leafo.net/sticky-kit/>
 
+Are you having trouble getting something to work? Consult the [troubleshooting guide](https://github.com/leafo/sticky-kit/wiki/Troubleshooting).
+
 # Installation
 
 ```bash
