@@ -1,5 +1,10 @@
 # Contributing to Sticky-Kit
 
+Before submitting the issue you must acknowledge that you've read the following:
+
+* [sticky-kit reference manual](http://leafo.net/sticky-kit/#reference)
+* [troubleshooting guide](https://github.com/leafo/sticky-kit/wiki/Troubleshooting)
+
 
 Thanks for reporting an issue. Sticky-kit is actually pretty complicated and
 handles a lot of sticky scenarios. If the issue isn't immediately obvious when
