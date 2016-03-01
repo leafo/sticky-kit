@@ -14,7 +14,7 @@ written in text then you must include a minimal case example of the problem on
 If you're opening a pull request, remember Sticky-kit is written in
 [CoffeeScript](http://coffeescript.org/), so you should be applying your patch
 to the CoffeeScript file and not the JavaScript files. Don't worry about
-building/minifying the JS files, I'm glad to do it for you. In any case, you
+building/minifying the JS files, it will automatically be done on the next versioned release. In any case, you
 can see how it's done in the
 [Makefile](https://github.com/leafo/sticky-kit/blob/master/Makefile).
 
