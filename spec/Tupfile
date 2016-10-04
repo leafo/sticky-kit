@@ -1,1 +1,2 @@
-: ../sticky-kit.coffee index.coffee |> cat %f | coffee -c -s > %o |> index.js
+: index.coffee |> cat %f | coffee -c -s > %o |> index.js
+: ../sticky-kit.coffee |> cat %f | coffee -c -s > %o |> sticky-kit.js
