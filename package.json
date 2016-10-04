@@ -19,9 +19,13 @@
     "url": "https://github.com/leafo/sticky-kit/issues"
   },
   "homepage": "https://github.com/leafo/sticky-kit#readme",
-	"keywords": [
-		"jquery",
-		"jquery-plugin",
-		"sticky"
-	]
+  "keywords": [
+    "jquery",
+    "jquery-plugin",
+    "sticky"
+  ],
+  "devDependencies": {
+    "jasmine": "^2.5.2",
+    "jquery": "^3.1.1"
+  }
 }

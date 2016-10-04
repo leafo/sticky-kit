@@ -1,1 +1,3 @@
 .tup
+node_modules
+spec/*.js
