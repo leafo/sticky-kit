@@ -121,6 +121,63 @@ describe "sticky columns", ->
                 expect(el.css("top")).toBe "auto"
           ]
 
+      it "inner scrolling", (done) ->
+        write_iframe("""
+          <div class="stick_columns #{type}">
+            <div class="cell stick_cell" style="height: 200vh"></div>
+            <div class="cell static_cell" style="height: 500vh"></div>
+          </div>
+          <script type="text/javascript">
+            $(".stick_cell").stick_in_parent()
+          </script>
+        """).then (f) =>
+          cell = f.find(".stick_cell")
+
+          expect(top cell).toBe 2
+          expect(cell.css("position")).toBe "static"
+          expect(cell.is(".is_stuck")).toBe false
+
+          # f.on "scroll", => console.warn f.scrollTop(), top cell
+
+          scroll_each f, done, [
+            # partially scrolled, stuck
+            at 50, =>
+              expect(top cell).toBe 0
+              expect(cell.css("position")).toBe "fixed"
+              expect(cell.is(".is_stuck")).toBe true
+
+            # bottomed to viewport
+            at 170, =>
+              expect(top cell).toBe -100
+              expect(cell.css("position")).toBe "fixed"
+              expect(cell.is(".is_stuck")).toBe true
+
+            # bottomed in container
+            at 410, =>
+              expect(top cell).toBe -108
+              expect(cell.css("position")).toBe "absolute"
+              expect(cell.is(".is_stuck")).toBe true
+
+            # partially scrolled up
+            at 350, =>
+              expect(top cell).toBe -40
+              expect(cell.css("position")).toBe "fixed"
+              expect(cell.is(".is_stuck")).toBe true
+
+            # topped in viewport
+            at 230, =>
+              expect(top cell).toBe 0
+              expect(cell.css("position")).toBe "fixed"
+              expect(cell.is(".is_stuck")).toBe true
+
+            # topped in container
+            at 0, =>
+              expect(top cell).toBe 2
+              expect(cell.css("position")).toBe "static"
+              expect(cell.is(".is_stuck")).toBe false
+          ]
+
+
       it "recalc", (done) ->
         write_iframe("""
           <div class="stick_columns #{type}">
@@ -133,7 +190,7 @@ describe "sticky columns", ->
               $(document.body).trigger("sticky_kit:recalc")
             }
           </script>
-        """).then (f, frame) =>
+        """).then (f) =>
           cell = f.find(".stick_cell")
           tall = f.find(".static_cell")
           scroll_to f, 125, =>
