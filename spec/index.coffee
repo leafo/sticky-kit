@@ -1,32 +1,36 @@
 
 at = Array
+top = (el) -> el[0].getBoundingClientRect().top
 
 describe "sticky_kit", ->
   describe "inline-block", ->
     test_frame = (f, done) ->
       cell = f.find(".stick_cell")
 
-      expect(cell.position().top).toBe 2
+      expect(top cell).toBe 2
+      expect(cell.css("position")).toBe "static"
 
       scroll_each f, done, [
         at 1, =>
-          expect(cell.position().top).toBe 2
+          expect(top cell).toBe 1
           expect(cell.css("position")).toBe "static"
 
         at 200, =>
-          expect(cell.position().top).toBe 0
+          expect(top cell).toBe 0
           expect(cell.css("position")).toBe "fixed"
+          expect(cell.css("top")).toBe "0px"
 
         at 480, =>
-          expect(cell.position().top).toBe 460
+          expect(top cell).toBe -18 # 500 - 480 - 2
           expect(cell.css("position")).toBe "absolute"
 
         at 200, =>
-          expect(cell.position().top).toBe 0
+          expect(top cell).toBe 0
           expect(cell.css("position")).toBe "fixed"
+          expect(cell.css("top")).toBe "0px"
 
         at 0, =>
-          expect(cell.position().top).toBe 0
+          expect(top cell).toBe 2
           expect(cell.css("position")).toBe "static"
       ]
 
@@ -34,7 +38,7 @@ describe "sticky_kit", ->
     it "right stick", (done) ->
       write_iframe("""
         <div class="stick_outer">
-          <div class="static_cell" style="height: 500px"></div>
+          <div class="static_cell" style="height: 500vh"></div>
           <div class="stick_cell"></div>
         </div>
         <script type="text/javascript">
