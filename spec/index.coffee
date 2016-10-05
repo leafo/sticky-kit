@@ -1,31 +1,59 @@
+
+at = Array
+
 describe "sticky_kit", ->
-  it "basic inline-block stick", (done) ->
-    write_iframe("""
-      <div class="stick_outer">
-        <div class="left_cell" style="height: 500px"></div>
-        <div class="right_cell"></div>
-      </div>
-      <script type="text/javascript">
-        $(".right_cell").stick_in_parent()
-      </script>
-    """).then (f) =>
-      cell = f.find(".right_cell")
+  describe "inline-block", ->
+    test_frame = (f, done) ->
+      cell = f.find(".stick_cell")
 
       expect(cell.position().top).toBe 2
 
-      scroll_to f, 1, =>
-        expect(cell.position().top).toBe 2
-        expect(cell.css("position")).toBe "static"
+      scroll_each f, done, [
+        at 1, =>
+          expect(cell.position().top).toBe 2
+          expect(cell.css("position")).toBe "static"
 
-        scroll_to f, 200, =>
+        at 200, =>
           expect(cell.position().top).toBe 0
           expect(cell.css("position")).toBe "fixed"
 
-          scroll_to f, 480, =>
-            expect(cell.position().top).toBe 460
-            expect(cell.css("position")).toBe "absolute"
-            done()
+        at 480, =>
+          expect(cell.position().top).toBe 460
+          expect(cell.css("position")).toBe "absolute"
 
+        at 200, =>
+          expect(cell.position().top).toBe 0
+          expect(cell.css("position")).toBe "fixed"
+
+        at 0, =>
+          expect(cell.position().top).toBe 0
+          expect(cell.css("position")).toBe "static"
+      ]
+
+
+    it "right stick", (done) ->
+      write_iframe("""
+        <div class="stick_outer">
+          <div class="static_cell" style="height: 500px"></div>
+          <div class="stick_cell"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent()
+        </script>
+      """).then (f) => test_frame f, done
+
+    it "left stick", (done) ->
+      write_iframe("""
+        <div class="stick_outer">
+          <div class="stick_cell"></div>
+          <div class="static_cell" style="height: 500px"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent()
+        </script>
+      """).then (f) => test_frame f, done
+
+  describe "float", ->
 
 iframe_template = (content) -> """
 <!DOCTYPE html>
@@ -70,6 +98,8 @@ write_iframe = (contents, opts={}) ->
   height ?= 100
 
   drop = $ ".iframe_drop"
+  drop.html ""
+
   frame = $ "<iframe></iframe>"
 
   frame.css {
@@ -98,4 +128,15 @@ scroll_to = (f, p, callback) ->
   $(win).one "scroll", => callback()
   f.scrollTop(p)
 
+scroll_each = (f, done, points) ->
+  scroll_to_next = ->
+    next = points.shift()
+    if next
+      scroll_to f, next[0], ->
+        next[1]?()
+        scroll_to_next()
+    else
+      done()
+
+  scroll_to_next()
 
