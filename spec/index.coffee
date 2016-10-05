@@ -1,6 +1,8 @@
 
+animate_scroll = true
 at = Array
 top = (el) -> el[0].getBoundingClientRect().top
+smoothstep = (t) -> t*t*t*(t*(t*6 - 15) + 10)
 
 describe "sticky columns", ->
   ["inline-block", "float"].forEach (type) =>
@@ -307,6 +309,8 @@ iframe_template = (content) -> """
       height: 40px;
       box-shadow: inset 0 0 0 4px rgba(255,255,255,0.5);
       background: blue;
+      background-image: linear-gradient(0deg, rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+      background-size: 20px 20px;
     }
 
     /* inline block */
@@ -375,10 +379,33 @@ write_iframe = (contents, opts={}) ->
 
   out
 
-scroll_to = (f, p, callback) ->
-  win = f[0].defaultView
-  $(win).one "scroll", => callback()
-  f.scrollTop(p)
+animate = (a, b, duration, callback) ->
+  start = window.performance.now()
+  tick = ->
+    window.requestAnimationFrame ->
+      now = window.performance.now()
+      p = smoothstep Math.min 1, (now - start) / duration
+      callback p * (b - a) + a, p
+      if p < 1
+        tick()
+
+  tick()
+
+scroll_to = (f, position, callback) ->
+  if animate_scroll
+    start_position = f.scrollTop()
+    space = Math.abs position - start_position
+
+    animate start_position, position, space, (scroll, p) ->
+      f.scrollTop Math.floor scroll
+      if p == 1
+        setTimeout ->
+          callback()
+        , 50
+  else
+    win = f[0].defaultView
+    $(win).one "scroll", => callback()
+    f.scrollTop(p)
 
 scroll_each = (f, done, points) ->
   scroll_to_next = ->
