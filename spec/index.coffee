@@ -57,6 +57,63 @@ describe "sticky_kit", ->
         </script>
       """).then (f) => test_frame f, done
 
+    it "multiple", (done) ->
+      write_iframe("""
+        <div class="stick_outer">
+          <div class="stick_cell a"></div>
+          <div class="stick_cell b" style="height: 75vh"></div>
+          <div class="static_cell" style="height: 500px"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent()
+        </script>
+      """).then (f) =>
+        a = f.find(".stick_cell.a")
+        b = f.find(".stick_cell.b")
+
+        scroll_each f, done, [
+          at 40, =>
+            [a,b].forEach (el) =>
+              expect(top el).toBe 0
+              expect(el.css("position")).toBe "fixed"
+              expect(el.css("top")).toBe "0px"
+
+          at 430, =>
+            expect(top a).toBe 0
+            expect(a.css("position")).toBe "fixed"
+            expect(a.css("top")).toBe "0px"
+
+            # b has bottomed
+            expect(top b).toBe -3
+            expect(b.css("position")).toBe "absolute"
+            expect(b.css("bottom")).toBe "0px"
+
+          at 485, =>
+            # both are bottomed
+            [a, b].forEach (el) =>
+              expect(el.css("position")).toBe "absolute"
+              expect(el.css("bottom")).toBe "0px"
+
+            expect(top a).toBe -23
+            expect(top b).toBe -58
+
+          at 440, =>
+            expect(top a).toBe 0
+            expect(a.css("position")).toBe "fixed"
+            expect(a.css("top")).toBe "0px"
+
+            # b has bottomed
+            expect(top b).toBe -13
+            expect(b.css("position")).toBe "absolute"
+            expect(b.css("bottom")).toBe "0px"
+
+          at 0, =>
+            [a,b].forEach (el) =>
+              expect(top el).toBe 2
+              expect(el.css("position")).toBe "static"
+              expect(el.css("top")).toBe "auto"
+        ]
+
   describe "float", ->
 
 iframe_template = (content) -> """
