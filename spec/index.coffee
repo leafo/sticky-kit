@@ -10,29 +10,35 @@ describe "sticky columns", ->
 
         expect(top cell).toBe 2
         expect(cell.css("position")).toBe "static"
+        expect(cell.is(".is_stuck")).toBe false
 
         scroll_each f, done, [
           at 1, =>
             expect(top cell).toBe 1
             expect(cell.css("position")).toBe "static"
+            expect(cell.is(".is_stuck")).toBe false
 
           at 200, =>
             expect(top cell).toBe 0
             expect(cell.css("position")).toBe "fixed"
             expect(cell.css("top")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
 
           at 480, =>
             expect(top cell).toBe -18 # 500 - 480 - 2
             expect(cell.css("position")).toBe "absolute"
+            expect(cell.is(".is_stuck")).toBe true
 
           at 200, =>
             expect(top cell).toBe 0
             expect(cell.css("position")).toBe "fixed"
             expect(cell.css("top")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
 
           at 0, =>
             expect(top cell).toBe 2
             expect(cell.css("position")).toBe "static"
+            expect(cell.is(".is_stuck")).toBe false
         ]
 
 
