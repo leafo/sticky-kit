@@ -127,6 +127,52 @@ describe "sticky columns", ->
                 expect(el.css("top")).toBe "auto"
           ]
 
+      it "padding, margin, border", (done) ->
+        write_iframe("""
+          <div class="stick_columns #{type}" style="border-width: 8px; padding: 8px; margin: 8px; background: rgba(255,0,0,0.1); margin-bottom: 500px">
+            <div class="cell static_cell" style="height: 500px"></div>
+            <div class="cell stick_cell"></div>
+          </div>
+          <script type="text/javascript">
+            $(".stick_cell").stick_in_parent()
+          </script>
+        """).then (f) =>
+          cell = f.find(".stick_cell")
+
+          expect(top cell).toBe 24
+          expect(cell.css("position")).toBe "static"
+          expect(cell.is(".is_stuck")).toBe false
+
+          scroll_each f, done, [
+            at 5, =>
+              expect(top cell).toBe 19
+              expect(cell.css("position")).toBe "static"
+              expect(cell.is(".is_stuck")).toBe false
+
+            at 200, =>
+              expect(top cell).toBe 0
+              expect(cell.css("position")).toBe "fixed"
+              expect(cell.css("top")).toBe "0px"
+              expect(cell.is(".is_stuck")).toBe true
+
+            at 490, =>
+              expect(top cell).toBe -6
+              expect(cell.css("position")).toBe "absolute"
+              expect(cell.is(".is_stuck")).toBe true
+
+            at 200, =>
+              expect(top cell).toBe 0
+              expect(cell.css("position")).toBe "fixed"
+              expect(cell.css("top")).toBe "0px"
+              expect(cell.is(".is_stuck")).toBe true
+
+            at 0, =>
+              expect(top cell).toBe 24
+              expect(cell.css("position")).toBe "static"
+              expect(cell.is(".is_stuck")).toBe false
+          ]
+
+
       it "inner scrolling", (done) ->
         write_iframe("""
           <div class="stick_columns #{type}">
