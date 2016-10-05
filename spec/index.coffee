@@ -38,7 +38,7 @@ describe "sticky columns", ->
 
       it "right stick", (done) ->
         write_iframe("""
-          <div class="stick_outer #{type}">
+          <div class="stick_columns #{type}">
             <div class="cell static_cell" style="height: 500vh"></div>
             <div class="cell stick_cell"></div>
           </div>
@@ -49,7 +49,7 @@ describe "sticky columns", ->
 
       it "left stick", (done) ->
         write_iframe("""
-          <div class="stick_outer #{type}">
+          <div class="stick_columns #{type}">
             <div class="cell stick_cell"></div>
             <div class="cell static_cell" style="height: 500px"></div>
           </div>
@@ -60,7 +60,7 @@ describe "sticky columns", ->
 
       it "multiple", (done) ->
         write_iframe("""
-          <div class="stick_outer #{type}">
+          <div class="stick_columns #{type}">
             <div class="cell stick_cell a"></div>
             <div class="cell stick_cell b" style="height: 75vh"></div>
             <div class="cell static_cell" style="height: 500px"></div>
@@ -115,19 +115,57 @@ describe "sticky columns", ->
                 expect(el.css("top")).toBe "auto"
           ]
 
+      it "recalc", (done) ->
+        write_iframe("""
+          <div class="stick_columns #{type}">
+            <div class="cell static_cell" style="height: 500vh"></div>
+            <div class="cell stick_cell"></div>
+          </div>
+          <script type="text/javascript">
+            $(".stick_cell").stick_in_parent()
+            window.sticky_kit_recalc = function() {
+              $(document.body).trigger("sticky_kit:recalc")
+            }
+          </script>
+        """).then (f, frame) =>
+          cell = f.find(".stick_cell")
+          tall = f.find(".static_cell")
+          scroll_to f, 125, =>
+            # change the page in a way that sticky kit won't notice
+            tall.css height: "150vh"
+
+            # element is still incorrectly positioned
+            expect(top cell).toBe 0
+            expect(cell.css("position")).toBe "fixed"
+            expect(cell.css("top")).toBe "0px"
+
+            # fix it
+            cell.trigger("sticky_kit:recalc")
+
+            # check repiared state
+            expect(top cell).toBe -13
+            expect(cell.css("position")).toBe "absolute"
+            expect(cell.css("bottom")).toBe "0px"
+
+            done()
+
+
   describe "flexbox", ->
+    # TODO:
+    ###
     it "right stick", (done) ->
       write_iframe("""
-        <div class="stick_outer flexbox">
+        <div class="stick_columns flexbox">
           <div class="cell static_cell" style="height: 500vh"></div>
           <div class="cell stick_cell"></div>
         </div>
         <script type="text/javascript">
-          $(".stick_cell").stick_in_parent()
+          $(".stick_cell").stick_in_parent();
         </script>
       """).then (f) =>
         expect(1).toBe 1
         done()
+    ###
 
 iframe_template = (content) -> """
 <!DOCTYPE html>
@@ -143,36 +181,39 @@ iframe_template = (content) -> """
       padding: 0;
     }
 
-    .stick_outer {
+    .stick_columns {
       border: 2px solid red;
       margin-bottom: 100%;
     }
 
-    .stick_outer .cell {
+    .stick_columns .cell {
       margin-right: 5px;
       width: 40px;
       height: 40px;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.5);
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,0.5);
       background: blue;
     }
 
     /* inline block */
-    .stick_outer.inline-block .cell {
+    .stick_columns.inline-block .cell {
       vertical-align: top;
       display: inline-block;
     }
 
     /* float */
-    .stick_outer.float {
+    .stick_columns.float {
       overflow: hidden;
     }
 
-    .stick_outer.float .cell {
+    .stick_columns.float .cell {
       float: left;
     }
 
     /* flexbox */
-
+    .stick_columns.flexbox {
+      display: flex;
+      align-items: flex-start;
+    }
   </style>
 </head>
 <body>
@@ -205,7 +246,10 @@ write_iframe = (contents, opts={}) ->
 
   out = $.Deferred (d) =>
     frame.onload = =>
-      d.resolve $(frame).contents(), frame
+      contents = $(frame).contents()
+      # switch to inside jquery
+      contents = frame.contentWindow.$ contents
+      d.resolve contents, frame
 
   frame.contentWindow.document.open()
 
