@@ -5,64 +5,70 @@ top = (el) -> el[0].getBoundingClientRect().top
 describe "sticky columns", ->
   ["inline-block", "float"].forEach (type) =>
     describe type, ->
-      test_frame = (f, done) ->
-        cell = f.find(".stick_cell")
+      [
 
-        expect(top cell).toBe 2
-        expect(cell.css("position")).toBe "static"
-        expect(cell.is(".is_stuck")).toBe false
+        [
+          "right stick"
+          """
+            <div class="stick_columns #{type}">
+              <div class="cell static_cell" style="height: 500px"></div>
+              <div class="cell stick_cell"></div>
+            </div>
+            <script type="text/javascript">
+              $(".stick_cell").stick_in_parent()
+            </script>
+          """
+        ]
 
-        scroll_each f, done, [
-          at 1, =>
-            expect(top cell).toBe 1
-            expect(cell.css("position")).toBe "static"
-            expect(cell.is(".is_stuck")).toBe false
+        [
+          "left stick"
+          """
+            <div class="stick_columns #{type}">
+              <div class="cell stick_cell"></div>
+              <div class="cell static_cell" style="height: 500px"></div>
+            </div>
+            <script type="text/javascript">
+              $(".stick_cell").stick_in_parent()
+            </script>
+          """
+        ]
+      ].forEach ([name, html]) =>
+        it name, (done) ->
+          write_iframe(html).then (f) =>
+            cell = f.find(".stick_cell")
 
-          at 200, =>
-            expect(top cell).toBe 0
-            expect(cell.css("position")).toBe "fixed"
-            expect(cell.css("top")).toBe "0px"
-            expect(cell.is(".is_stuck")).toBe true
-
-          at 480, =>
-            expect(top cell).toBe -18 # 500 - 480 - 2
-            expect(cell.css("position")).toBe "absolute"
-            expect(cell.is(".is_stuck")).toBe true
-
-          at 200, =>
-            expect(top cell).toBe 0
-            expect(cell.css("position")).toBe "fixed"
-            expect(cell.css("top")).toBe "0px"
-            expect(cell.is(".is_stuck")).toBe true
-
-          at 0, =>
             expect(top cell).toBe 2
             expect(cell.css("position")).toBe "static"
             expect(cell.is(".is_stuck")).toBe false
-        ]
 
+            scroll_each f, done, [
+              at 1, =>
+                expect(top cell).toBe 1
+                expect(cell.css("position")).toBe "static"
+                expect(cell.is(".is_stuck")).toBe false
 
-      it "right stick", (done) ->
-        write_iframe("""
-          <div class="stick_columns #{type}">
-            <div class="cell static_cell" style="height: 500vh"></div>
-            <div class="cell stick_cell"></div>
-          </div>
-          <script type="text/javascript">
-            $(".stick_cell").stick_in_parent()
-          </script>
-        """).then (f) => test_frame f, done
+              at 200, =>
+                expect(top cell).toBe 0
+                expect(cell.css("position")).toBe "fixed"
+                expect(cell.css("top")).toBe "0px"
+                expect(cell.is(".is_stuck")).toBe true
 
-      it "left stick", (done) ->
-        write_iframe("""
-          <div class="stick_columns #{type}">
-            <div class="cell stick_cell"></div>
-            <div class="cell static_cell" style="height: 500px"></div>
-          </div>
-          <script type="text/javascript">
-            $(".stick_cell").stick_in_parent()
-          </script>
-        """).then (f) => test_frame f, done
+              at 480, =>
+                expect(top cell).toBe -18 # 500 - 480 - 2
+                expect(cell.css("position")).toBe "absolute"
+                expect(cell.is(".is_stuck")).toBe true
+
+              at 200, =>
+                expect(top cell).toBe 0
+                expect(cell.css("position")).toBe "fixed"
+                expect(cell.css("top")).toBe "0px"
+                expect(cell.is(".is_stuck")).toBe true
+
+              at 0, =>
+                expect(top cell).toBe 2
+                expect(cell.css("position")).toBe "static"
+                expect(cell.is(".is_stuck")).toBe false
+            ]
 
       it "multiple", (done) ->
         write_iframe("""
@@ -124,8 +130,8 @@ describe "sticky columns", ->
       it "inner scrolling", (done) ->
         write_iframe("""
           <div class="stick_columns #{type}">
-            <div class="cell stick_cell" style="height: 200vh"></div>
-            <div class="cell static_cell" style="height: 500vh"></div>
+            <div class="cell stick_cell" style="height: 200px"></div>
+            <div class="cell static_cell" style="height: 500px"></div>
           </div>
           <script type="text/javascript">
             $(".stick_cell").stick_in_parent()
@@ -181,7 +187,7 @@ describe "sticky columns", ->
       it "recalc", (done) ->
         write_iframe("""
           <div class="stick_columns #{type}">
-            <div class="cell static_cell" style="height: 500vh"></div>
+            <div class="cell static_cell" style="height: 500px"></div>
             <div class="cell stick_cell"></div>
           </div>
           <script type="text/javascript">
@@ -219,7 +225,7 @@ describe "sticky columns", ->
     it "right stick", (done) ->
       write_iframe("""
         <div class="stick_columns flexbox">
-          <div class="cell static_cell" style="height: 500vh"></div>
+          <div class="cell static_cell" style="height: 500px"></div>
           <div class="cell stick_cell"></div>
         </div>
         <script type="text/javascript">
