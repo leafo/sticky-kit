@@ -1,5 +1,5 @@
 
-animate_scroll = true
+animate_scroll = false
 at = Array
 top = (el) -> el[0].getBoundingClientRect().top
 smoothstep = (t) -> t*t*t*(t*(t*6 - 15) + 10)
@@ -405,7 +405,7 @@ scroll_to = (f, position, callback) ->
   else
     win = f[0].defaultView
     $(win).one "scroll", => callback()
-    f.scrollTop(p)
+    f.scrollTop position
 
 scroll_each = (f, done, points) ->
   scroll_to_next = ->
