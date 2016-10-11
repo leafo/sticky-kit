@@ -10,7 +10,7 @@ describe "sticky columns", ->
       [
 
         [
-          "right stick"
+          "right stick, default align"
           """
             <div class="stick_columns #{type}">
               <div class="cell static_cell" style="height: 500px"></div>
@@ -23,7 +23,7 @@ describe "sticky columns", ->
         ]
 
         [
-          "left stick"
+          "left stick, default align"
           """
             <div class="stick_columns #{type}">
               <div class="cell stick_cell"></div>
@@ -34,6 +34,33 @@ describe "sticky columns", ->
             </script>
           """
         ]
+
+        [
+          "right stick, right align"
+          """
+            <div class="stick_columns #{type} align_right">
+              <div class="cell static_cell" style="height: 500px"></div>
+              <div class="cell stick_cell"></div>
+            </div>
+            <script type="text/javascript">
+              $(".stick_cell").stick_in_parent()
+            </script>
+          """
+        ]
+
+        [
+          "left stick, right align"
+          """
+            <div class="stick_columns #{type} align_right">
+              <div class="cell stick_cell"></div>
+              <div class="cell static_cell" style="height: 500px"></div>
+            </div>
+            <script type="text/javascript">
+              $(".stick_cell").stick_in_parent()
+            </script>
+          """
+        ]
+
       ].forEach ([name, html]) =>
         it name, (done) ->
           write_iframe(html).then (f) =>
@@ -319,6 +346,10 @@ iframe_template = (content) -> """
       display: inline-block;
     }
 
+    .stick_columns.inline-block.align_right {
+      text-align: right;
+    }
+
     /* float */
     .stick_columns.float {
       overflow: hidden;
@@ -327,6 +358,11 @@ iframe_template = (content) -> """
     .stick_columns.float .cell {
       float: left;
     }
+
+    .stick_columns.float.align_right .cell {
+      float: right;
+    }
+
 
     /* flexbox */
     .stick_columns.flexbox {
