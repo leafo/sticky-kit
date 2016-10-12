@@ -311,6 +311,54 @@ describe "sticky columns", ->
         done()
     ###
 
+  describe "header", ->
+    it "sticks a header row", (done) ->
+      write_iframe("""
+        <div class="stick_header">
+          <div class="stick_cell header"></div>
+          <div class="stick_body"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent()
+        </script>
+      """).then (f) =>
+        cell = f.find(".stick_cell")
+
+        # f.on "scroll", => console.warn f.scrollTop(), top cell
+
+        expect(top cell).toBe 2
+        expect(cell.css("position")).toBe "static"
+        expect(cell.css("top")).toBe "auto"
+        expect(cell.is(".is_stuck")).toBe false
+
+        scroll_each f, done, [
+          at 20, =>
+            expect(top cell).toBe 0
+            expect(cell.css("position")).toBe "fixed"
+            expect(cell.css("top")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 90, =>
+            expect(top cell).toBe 0
+            expect(cell.css("position")).toBe "fixed"
+            expect(cell.css("top")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 125, =>
+            expect(top cell).toBe -23
+            expect(cell.css("position")).toBe "absolute"
+            expect(cell.css("top")).toBe "100px"
+            expect(cell.css("bottom")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 0, =>
+            expect(top cell).toBe 2
+            expect(cell.css("position")).toBe "static"
+            expect(cell.css("top")).toBe "auto"
+            expect(cell.is(".is_stuck")).toBe false
+        ]
+
+
 iframe_template = (content) -> """
 <!DOCTYPE html>
 <html>
@@ -368,6 +416,25 @@ iframe_template = (content) -> """
     .stick_columns.flexbox {
       display: flex;
       align-items: flex-start;
+    }
+
+    /* header */
+    .stick_header {
+      border: 2px solid red;
+      margin-bottom: 100%;
+    }
+
+    .stick_header .stick_body {
+      background: rgba(255,0,0,0.1);
+      min-height: 100vh;
+    }
+
+    .stick_header .header {
+      height: 40px;
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,0.5);
+      background: blue;
+      background-image: linear-gradient(0deg, rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+      background-size: 20px 20px;
     }
   </style>
 </head>
