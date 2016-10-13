@@ -358,6 +358,53 @@ describe "sticky columns", ->
             expect(cell.is(".is_stuck")).toBe false
         ]
 
+
+    it "sticks with custom spacer", (done) ->
+      write_iframe("""
+        <div class="stick_header">
+          <div class="spacer">
+            <div class="stick_cell header"></div>
+          </div>
+          <div class="stick_body"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent({
+            parent: ".stick_header",
+            spacer: ".spacer",
+          })
+        </script>
+      """).then (f) =>
+        cell = f.find(".stick_cell")
+
+        expect(top cell).toBe 7
+        expect(cell.css("position")).toBe "static"
+        expect(cell.css("top")).toBe "auto"
+        expect(cell.is(".is_stuck")).toBe false
+
+        scroll_each f, done, [
+          at 20, =>
+            expect(top cell).toBe 0
+            expect(cell.css("position")).toBe "fixed"
+            expect(cell.css("top")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 100, =>
+            expect(top cell).toBe 0
+            expect(cell.css("position")).toBe "fixed"
+            expect(cell.css("top")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 125, =>
+            expect(top cell).toBe -13
+            expect(cell.css("position")).toBe "absolute"
+            expect(cell.css("bottom")).toBe "0px"
+            expect(cell.is(".is_stuck")).toBe true
+        ]
+
+
+
+
+
   describe "events", ->
     it "detects events when scrolling sticky header", (done) ->
       write_iframe("""
@@ -478,6 +525,10 @@ iframe_template = (content) -> """
     .stick_header .stick_body {
       background: rgba(255,0,0,0.1);
       min-height: 100vh;
+    }
+
+    .stick_header .spacer {
+      border: 5px solid green;
     }
 
     .stick_header .header {
