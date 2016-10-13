@@ -358,6 +358,57 @@ describe "sticky columns", ->
             expect(cell.is(".is_stuck")).toBe false
         ]
 
+  describe "events", ->
+    it "detects events when scrolling sticky header", (done) ->
+      write_iframe("""
+        <div class="stick_header">
+          <div class="stick_cell header"></div>
+          <div class="stick_body"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent()
+        </script>
+      """).then (f) =>
+        cell = f.find(".stick_cell")
+        event_log = []
+
+        f.on "sticky_kit:stick", (e) => event_log.push "stick"
+        f.on "sticky_kit:unstick", (e) => event_log.push "unstick"
+        f.on "sticky_kit:bottom", (e) => event_log.push "bottom"
+        f.on "sticky_kit:unbottom", (e) => event_log.push "unbottom"
+
+
+        scroll_each f, done, [
+          at 1, =>
+            expect(event_log).toEqual []
+
+          at 20, =>
+            expect(event_log).toEqual ["stick"]
+
+          at 1, =>
+            expect(event_log).toEqual ["stick", "unstick"]
+            event_log = []
+
+          at 20, =>
+            expect(event_log).toEqual ["stick"]
+
+          at 90, =>
+            expect(event_log).toEqual ["stick"]
+
+          at 125, =>
+            expect(event_log).toEqual ["stick", "bottom"]
+
+          at 145, =>
+            expect(event_log).toEqual ["stick", "bottom"]
+
+          at 20, =>
+            expect(event_log).toEqual ["stick", "bottom", "unbottom"]
+
+          at 0, =>
+            expect(event_log).toEqual ["stick", "bottom", "unbottom", "unstick"]
+
+        ]
+
 
 iframe_template = (content) -> """
 <!DOCTYPE html>
