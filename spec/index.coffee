@@ -403,6 +403,24 @@ describe "sticky columns", ->
 
 
 
+  describe "options", ->
+    it "uses custom sticky class", (done) ->
+      write_iframe("""
+        <div class="stick_header">
+          <div class="stick_cell header"></div>
+          <div class="stick_body"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent({sticky_class: "really_stick"})
+        </script>
+
+      """).then (f) ->
+        cell = f.find(".stick_cell")
+
+        scroll_each f, done, [
+          at 20, =>
+            expect(cell.is(".really_stick")).toBe true
+        ]
 
 
   describe "events", ->
