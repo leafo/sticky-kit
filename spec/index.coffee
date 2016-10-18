@@ -422,6 +422,47 @@ describe "sticky columns", ->
             expect(cell.is(".really_stick")).toBe true
         ]
 
+    it "uses offset top", (done) ->
+      write_iframe("""
+        <div class="stick_header" style="margin-top: 20px">
+          <div class="stick_cell header"></div>
+          <div class="stick_body"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent({offset_top: 10})
+        </script>
+
+      """).then (f) ->
+        cell = f.find(".stick_cell")
+
+        # f.on "scroll", => console.warn f.scrollTop(), top cell
+
+        scroll_each f, done, [
+          at 5, =>
+            expect(top cell).toBe 17
+            expect(cell.is(".is_stuck")).toBe false
+
+          at 15, =>
+            expect(top cell).toBe 10
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 40, =>
+            expect(top cell).toBe 10
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 125, =>
+            expect(top cell).toBe -3
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 15, =>
+            expect(top cell).toBe 10
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 0, =>
+            expect(top cell).toBe 22
+            expect(cell.is(".is_stuck")).toBe false
+        ]
+
 
   describe "events", ->
     it "detects events when scrolling sticky header", (done) ->
