@@ -422,6 +422,43 @@ describe "sticky columns", ->
             expect(cell.is(".really_stick")).toBe true
         ]
 
+    it "disables bottoming", (done) ->
+      write_iframe("""
+        <div class="stick_header">
+          <div class="stick_cell header"></div>
+          <div class="stick_body"></div>
+        </div>
+        <script type="text/javascript">
+          $(".stick_cell").stick_in_parent({bottoming: false})
+        </script>
+
+      """).then (f) ->
+        cell = f.find(".stick_cell")
+
+        # f.on "scroll", => console.warn f.scrollTop(), top cell
+
+        scroll_each f, done, [
+          at 2, =>
+            expect(top cell).toBe 0
+            expect(cell.is(".is_stuck")).toBe false
+
+          at 62, =>
+            expect(top cell).toBe 0
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 180, =>
+            expect(top cell).toBe 0
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 62, =>
+            expect(top cell).toBe 0
+            expect(cell.is(".is_stuck")).toBe true
+
+          at 0, =>
+            expect(top cell).toBe 2
+            expect(cell.is(".is_stuck")).toBe false
+        ]
+
     it "uses offset top", (done) ->
       write_iframe("""
         <div class="stick_header" style="margin-top: 20px">
