@@ -2,7 +2,7 @@
 @license Sticky-kit v1.1.3 | MIT | Leaf Corcoran 2015 | http://leafo.net
 ###
 
-$ = @jQuery or window.jQuery
+$ = window.jQuery
 
 win = $ window
 $.fn.stick_in_parent = (opts={}) ->
