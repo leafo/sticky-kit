@@ -1,10 +1,12 @@
 ###*
-@license Sticky-kit v1.1.3 | MIT | Leaf Corcoran 2015 | http://leafo.net
+@license Sticky-kit v1.1.4 | MIT | Leaf Corcoran 2015 | http://leafo.net
 ###
 
 $ = window.jQuery
 
 win = $ window
+doc = $ document
+
 $.fn.stick_in_parent = (opts={}) ->
   {
     sticky_class
@@ -16,12 +18,13 @@ $.fn.stick_in_parent = (opts={}) ->
     bottoming: enable_bottoming
   } = opts
 
+  win_height = win.height()
+  doc_height = doc.height()
+
   offset_top ?= 0
   parent_selector ?= undefined
   inner_scrolling ?= true
   sticky_class ?= "is_stuck"
-
-  doc = $(document)
 
   enable_bottoming = true unless enable_bottoming?
 
@@ -44,7 +47,7 @@ $.fn.stick_in_parent = (opts={}) ->
       return if elm.data "sticky_kit"
       elm.data "sticky_kit", true
 
-      last_scroll_height = doc.height()
+      last_scroll_height = doc_height
 
       parent = elm.parent()
       parent = parent.closest(parent_selector) if parent_selector?
@@ -61,7 +64,9 @@ $.fn.stick_in_parent = (opts={}) ->
 
       recalc = ->
         return if detached
-        last_scroll_height = doc.height()
+        win_height = win.height();
+        doc_height = doc.height();
+        last_scroll_height = doc_height
 
         border_top = parseInt parent.css("border-top-width"), 10
         padding_top = parseInt parent.css("padding-top"), 10
@@ -122,7 +127,7 @@ $.fn.stick_in_parent = (opts={}) ->
             recalc()
             recalced = true
 
-        if !recalced && doc.height() != last_scroll_height
+        if !recalced && doc_height != last_scroll_height
           recalc()
           recalced = true
 
@@ -164,7 +169,6 @@ $.fn.stick_in_parent = (opts={}) ->
 
           # updated offset
           if inner_scrolling
-            win_height = win.height()
             if height + offset_top > win_height # bigger than viewport
               unless bottomed
                 offset -= delta
